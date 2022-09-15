@@ -6,12 +6,13 @@
 //
 
 import UIKit
-
+import Kingfisher
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
    
     var dataModel = [Movie]()
     var webService = WebServices()
 
+    
     @IBOutlet weak var myTable: UITableView!
     
     
@@ -24,7 +25,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         
         webService.delegate = self
         webService.fetchData()
-     
+       // webService.AlomofireFetch()
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataModel.count
@@ -32,27 +33,14 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : TableViewCell = myTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
-      
+        
         cell.dataFetch(movie: dataModel[indexPath.row])
         
-        
-        let path = URL(string: "https://image.tmdb.org/t/p/original\(dataModel[indexPath.row].poster_path)")
-            URLSession.shared.dataTask(with: path!) {
-                (data, response, error) in
-                guard
-                let data = data
-                else {
-                    return
-                }
-                DispatchQueue.main.async {
-                    
-                    cell.movieImage.image = UIImage(data: data)
-                }
-            }.resume()
+        let url = URL(string: "\(API.imageURL)\(dataModel[indexPath.row].poster_path)")
+        DispatchQueue.main.async {
+            cell.movieImage.kf.setImage(with: url)
+        }
     
-        
-// Kingfisher
-        
         
         return cell
     }
@@ -60,24 +48,17 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let details: DetailsViewController = self.storyboard?.instantiateViewController(identifier: "DetailsViewController") as!DetailsViewController
             navigationController?.pushViewController(details, animated: true)
+        
 
-            let path = URL(string: "https://image.tmdb.org/t/p/original\(dataModel[indexPath.row].poster_path)")
-            URLSession.shared.dataTask(with: path!) {
-                (data, response, error) in
-                guard
-                let data = data
-                else {
-                    return
-                }
-                DispatchQueue.main.async {
-                    details.imageView.image = UIImage(data: data)
-                }
-            }.resume()
+        let url = URL(string: "\(API.imageURL)\(dataModel[indexPath.row].poster_path)")
 
+        DispatchQueue.main.async {
+            details.imageView.kf.setImage(with: url)
+        }
             DispatchQueue.main.async {
                 details.releaseLabel.text = Utils.formattedDateFromString(dateString: self.dataModel[indexPath.row].release_date, withFormat: "dd.MM.yyyy")
                 details.titleLabel.text = self.dataModel[indexPath.row].title
-                details.overviewLabel.text = self.dataModel[indexPath.row].overview
+                details.overViewTextFiled.text = self.dataModel[indexPath.row].overview
 
             }
 

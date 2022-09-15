@@ -10,7 +10,7 @@ import UIKit
 
 class DetailsViewController: UIViewController {
 
-    @IBOutlet weak var overviewLabel: UITextView!
+    @IBOutlet weak var overViewTextFiled: UITextView!
     @IBOutlet weak var releaseLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!

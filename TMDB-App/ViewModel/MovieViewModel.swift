@@ -6,8 +6,6 @@
 //
 
 import Foundation
-
-
 struct MovieViewModel: Codable {
     var results: [Movie]
 }

@@ -8,13 +8,14 @@
 import Foundation
 
 class API: NSObject {
+
     static var baseURL: String {
          
         return "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc"
     }
     
-    static var evaluatorURL: String {
-        return "api.themoviedb.org"
+    static var imageURL: String {
+        return "https://image.tmdb.org/t/p/original"
     }
     static let apiKey = "464f8a5567ef6de84d256d195532ca13"
 }
