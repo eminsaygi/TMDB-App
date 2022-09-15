@@ -96,7 +96,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="oO2-tj-Q1S"/>
                     <connections>
-                        <outlet property="myTable" destination="JJj-4n-RGq" id="Jtx-5K-XYS"/>
+                        <outlet property="movieTable" destination="JJj-4n-RGq" id="Jtx-5K-XYS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="is9-lk-8fN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -162,6 +162,7 @@
                             <constraint firstItem="iJI-S7-oOV" firstAttribute="trailing" secondItem="tWU-df-KUt" secondAttribute="trailing" id="qVe-3b-BfM"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="hVo-5s-vi1"/>
                     <connections>
                         <outlet property="imageView" destination="bB5-kP-eMs" id="KGn-FN-SkX"/>
                         <outlet property="overViewTextFiled" destination="tWU-df-KUt" id="RHd-wA-brC"/>

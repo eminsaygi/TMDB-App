@@ -8,12 +8,12 @@
 import Foundation
 import UIKit
 
-
+// MARK: - We added additional features to the Web Services Delegate protocol running on the ViewController
 extension ViewController: WebServicesDelegate {
     func didUpdateMovies(movies: [Movie]) {
-        self.dataModel = movies
+        self.movieModel = movies
         DispatchQueue.main.async {
-            self.myTable.reloadData()
+            self.movieTable.reloadData()
         }
     }
 }

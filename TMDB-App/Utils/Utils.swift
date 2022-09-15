@@ -12,8 +12,7 @@ final class Utils {
     
     
     
-    // ctrl+I
-    
+    // MARK: - We set the date format
     static func formattedDateFromString(dateString: String, withFormat format: String) -> String? {
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd"

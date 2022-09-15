@@ -8,60 +8,62 @@
 import UIKit
 import Kingfisher
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
-   
-    var dataModel = [Movie]()
-    var webService = WebServices()
-
     
-    @IBOutlet weak var myTable: UITableView!
+    var movieModel = [Movie?]()
+    
+    var movieWebService = WebServices()
+    
+    
+    @IBOutlet weak var movieTable: UITableView!
     
     
     private var movieTableViewModel : TableViewCell!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        myTable.delegate = self
-        myTable.dataSource = self
+        movieTable.delegate = self
+        movieTable.dataSource = self
         
-        webService.delegate = self
-        webService.fetchData()
-       // webService.AlomofireFetch()
+        movieWebService.delegate = self
+        movieWebService.getDiscoverMovies()
+        // webService.AlomofireFetch()
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataModel.count
+        return movieModel.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : TableViewCell = myTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
+        let cell : TableViewCell = movieTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
         
-        cell.dataFetch(movie: dataModel[indexPath.row])
-        
-        let url = URL(string: "\(API.imageURL)\(dataModel[indexPath.row].poster_path)")
-        DispatchQueue.main.async {
-            cell.movieImage.kf.setImage(with: url)
-        }
-    
+        cell.dataFetch(movie: movieModel[indexPath.row]!)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let details: DetailsViewController = self.storyboard?.instantiateViewController(identifier: "DetailsViewController") as!DetailsViewController
-            navigationController?.pushViewController(details, animated: true)
+        navigationController?.pushViewController(details, animated: true)
         
-
-        let url = URL(string: "\(API.imageURL)\(dataModel[indexPath.row].poster_path)")
-
+        
+        
+        let url = URL(string: "\(API.imageURL)\(movieModel[indexPath.row]?.posterPath ?? "")")
+        
         DispatchQueue.main.async {
             details.imageView.kf.setImage(with: url)
         }
-            DispatchQueue.main.async {
-                details.releaseLabel.text = Utils.formattedDateFromString(dateString: self.dataModel[indexPath.row].release_date, withFormat: "dd.MM.yyyy")
-                details.titleLabel.text = self.dataModel[indexPath.row].title
-                details.overViewTextFiled.text = self.dataModel[indexPath.row].overview
-
-            }
-
+        
+        
+        
+        DispatchQueue.main.async {
+            details.releaseLabel.text = Utils.formattedDateFromString(dateString: self.movieModel[indexPath.row]?.releaseDate ?? "", withFormat: "dd.MM.yyyy")
+            details.titleLabel.text = self.movieModel[indexPath.row]?.title
+            details.overViewTextFiled.text = self.movieModel[indexPath.row]?.overview
+            
+        }
+        
+        
     }
-
+    
+    
+    
 }

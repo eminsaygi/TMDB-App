@@ -7,5 +7,5 @@
 
 import Foundation
 struct MovieViewModel: Codable {
-    var results: [Movie]
+    var results: [Movie]?
 }

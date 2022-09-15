@@ -9,7 +9,8 @@ import UIKit
 
 class TableViewCell: UITableViewCell {
 
-    
+    var movieModel = [Movie?]()
+
     
     @IBOutlet weak var movieImage: UIImageView!
     @IBOutlet weak var relaseLabel: UILabel!
@@ -27,7 +28,12 @@ class TableViewCell: UITableViewCell {
     }
     
     func dataFetch (movie: Movie){
+        let url = URL(string: "\(API.imageURL)\(movie.posterPath ?? "")")
+        DispatchQueue.main.async {
+            self.movieImage.kf.setImage(with: url)
+        }
+        
         self.titleLabel.text = movie.title
-        self.relaseLabel.text = Utils.formattedDateFromString(dateString: movie.release_date, withFormat: "dd.MM.yyyy")
+        self.relaseLabel.text = Utils.formattedDateFromString(dateString: movie.releaseDate ?? "", withFormat: "dd.MM.yyyy")
     }
 }
