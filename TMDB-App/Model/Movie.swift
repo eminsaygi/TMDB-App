@@ -33,5 +33,5 @@ struct Movie: Codable {
         case voteAverage = "vote_average"
         
     }
-
+    
 }

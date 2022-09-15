@@ -8,9 +8,9 @@
 import Foundation
 
 class API: NSObject {
-
+    
     static var baseURL: String {
-         
+        
         return "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc"
     }
     

@@ -44,12 +44,12 @@
                                                         <constraint firstAttribute="width" constant="93" id="IBQ-MM-z42"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="loE-De-nni">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="loE-De-nni">
                                                     <rect key="frame" x="127" y="64" width="186" height="13"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="13" id="1sS-MJ-EvG"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -97,6 +97,7 @@
                     <navigationItem key="navigationItem" id="oO2-tj-Q1S"/>
                     <connections>
                         <outlet property="movieTable" destination="JJj-4n-RGq" id="Jtx-5K-XYS"/>
+                        <segue destination="1bJ-tK-vee" kind="show" identifier="toDetailVC" id="OHo-mb-KCH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="is9-lk-8fN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -112,7 +113,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bB5-kP-eMs">
-                                <rect key="frame" x="0.0" y="0.0" width="390" height="344"/>
+                                <rect key="frame" x="0.0" y="44" width="390" height="300"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iJI-S7-oOV">
                                 <rect key="frame" x="16" y="352" width="358" height="53"/>
@@ -172,7 +173,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KRj-KV-r5b" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3690.7692307692305" y="-34.123222748815166"/>
+            <point key="canvasLocation" x="3825" y="-34"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="hF2-AV-m2k">

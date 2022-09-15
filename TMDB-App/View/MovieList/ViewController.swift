@@ -9,6 +9,11 @@ import UIKit
 import Kingfisher
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
+    var titleText = ""
+    var overViewText = ""
+    var relaseText = ""
+    var imageUrl = ""
+    
     var movieModel = [Movie?]()
     
     var movieWebService = WebServices()
@@ -41,29 +46,44 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let details: DetailsViewController = self.storyboard?.instantiateViewController(identifier: "DetailsViewController") as!DetailsViewController
-        navigationController?.pushViewController(details, animated: true)
+        
+        titleText = (self.movieModel[indexPath.row]?.title) ?? ""
+        relaseText = Utils.formattedDateFromString(dateString: self.movieModel[indexPath.row]?.releaseDate ?? "", withFormat: "dd.MM.yyyy") ?? ""
+        overViewText = (self.movieModel[indexPath.row]?.overview) ?? ""
+        let url = "\(API.imageURL)\(self.movieModel[indexPath.row]?.posterPath ?? "")"
+        imageUrl = url
+        
+        performSegue(withIdentifier: "toDetailVC", sender: nil)
         
         
+        /*
+         let details: DetailsViewController = self.storyboard?.instantiateViewController(identifier: "DetailsViewController") as!DetailsViewController
+         navigationController?.pushViewController(details, animated: true)
+         */
+        // let url = URL(string: "\(API.imageURL)\(movieModel[indexPath.row]?.posterPath ?? "")")
+        //DispatchQueue.main.async {
         
-        let url = URL(string: "\(API.imageURL)\(movieModel[indexPath.row]?.posterPath ?? "")")
-        
-        DispatchQueue.main.async {
-            details.imageView.kf.setImage(with: url)
+            // details.imageView.kf.setImage(with: url)
+            /*
+             }
+            DispatchQueue.main.async {
+             details.releaseLabel.text = Utils.formattedDateFromString(dateString: self.movieModel[indexPath.row]?.releaseDate ?? "", withFormat: "dd.MM.yyyy")
+             details.titleLabel.text = self.movieModel[indexPath.row]?.title
+             details.overViewTextFiled.text = self.movieModel[indexPath.row]?.overview
+             }
+             */
         }
         
-        
-        
-        DispatchQueue.main.async {
-            details.releaseLabel.text = Utils.formattedDateFromString(dateString: self.movieModel[indexPath.row]?.releaseDate ?? "", withFormat: "dd.MM.yyyy")
-            details.titleLabel.text = self.movieModel[indexPath.row]?.title
-            details.overViewTextFiled.text = self.movieModel[indexPath.row]?.overview
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toDetailVC"  {
+            let destinationVC = segue.destination as? DetailsViewController
+            destinationVC?.titleText = titleText
+            destinationVC?.relaseText = relaseText
+            destinationVC?.overViewText = overViewText
+            destinationVC?.imageUrl = imageUrl
             
         }
-        
-        
     }
     
-    
-    
 }
+
