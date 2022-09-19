@@ -20,6 +20,7 @@ class TableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        movieImage.backgroundColor = .darkGray
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -27,7 +28,7 @@ class TableViewCell: UITableViewCell {
         
     }
     
-    func dataFetch (movie: Movie){
+    func movieDataFetch (movie: Movie){
         let url = URL(string: "\(API.imageURL)\(movie.posterPath ?? "")")
         DispatchQueue.main.async {
             self.movieImage.kf.setImage(with: url)

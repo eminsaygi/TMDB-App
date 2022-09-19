@@ -14,9 +14,6 @@ struct Movie: Codable {
     
     let posterPath, releaseDate, title: String?
     
-    let voteAverage: Double?
-    
-    
     
     enum CodingKeys: String, CodingKey {
         
@@ -30,7 +27,6 @@ struct Movie: Codable {
         
         case title
         
-        case voteAverage = "vote_average"
         
     }
     

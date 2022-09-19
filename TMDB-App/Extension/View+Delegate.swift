@@ -13,7 +13,10 @@ extension ViewController: WebServicesDelegate {
     func didUpdateMovies(movies: [Movie]) {
         self.movieModel = movies
         DispatchQueue.main.async {
+            
+            self.movieTable.refreshControl?.endRefreshing()
             self.movieTable.reloadData()
+
         }
     }
 }

@@ -15,8 +15,9 @@ class API: NSObject {
     }
     
     static var imageURL: String {
-        return "https://image.tmdb.org/t/p/original"
+        return "https://image.tmdb.org/t/p/w500/"
     }
+    //https://image.tmdb.org/t/p/original
     static let apiKey = "464f8a5567ef6de84d256d195532ca13"
 }
 
