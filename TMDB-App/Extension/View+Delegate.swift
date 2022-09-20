@@ -16,7 +16,7 @@ extension ViewController: WebServicesDelegate {
             
             self.movieTable.refreshControl?.endRefreshing()
             self.movieTable.reloadData()
-
+            
         }
     }
 }

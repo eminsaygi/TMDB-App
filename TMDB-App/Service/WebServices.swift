@@ -28,7 +28,7 @@ final class WebServices {
                 if error == nil {
                     let jsonData =
                     try JSONDecoder().decode(MovieViewModel.self, from: safeData)
-                     
+                    
                     self.delegate?.didUpdateMovies(movies: jsonData.results!)
                     
                 }
