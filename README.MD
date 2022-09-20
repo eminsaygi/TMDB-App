@@ -34,7 +34,7 @@
 
 Preview | 
 :-------------------------:
-![Preview](https://user-images.githubusercontent.com/44553346/191225400-9133cda1-6eaf-4572-94f6-858f7f95bdf4.gif) |
+![Preview](https://user-images.githubusercontent.com/44553346/191227801-fcf705f8-fcf3-4409-8006-118f649a696d.gif) |
 
 
 
