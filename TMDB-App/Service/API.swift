@@ -8,16 +8,22 @@
 import Foundation
 
 class API: NSObject {
-    
     static var baseURL: String {
+        return "https://api.themoviedb.org"
+    }
+    static var discoverURL: String {
         
-        return "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc"
+        return "\(baseURL)/3/discover/movie?sort_by=popularity.desc&api_key=\(apiKey)"
     }
     
     static var imageURL: String {
         return "https://image.tmdb.org/t/p/w500/"
     }
-    //https://image.tmdb.org/t/p/original
+    static var searchURL: String {
+        
+        return "\(baseURL)/3/search/movie?api_key=\(apiKey)&query="
+    }
+    
     static let apiKey = "464f8a5567ef6de84d256d195532ca13"
 }
 

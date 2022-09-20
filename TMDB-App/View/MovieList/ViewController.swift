@@ -111,8 +111,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
-        if text.count > 2 {
-            WebServices.getDiscoverSearchMovies(with: text)
+        if text.count > 1 {
+            WebServices.getSearchMovies(with: text)
         }
     }
     

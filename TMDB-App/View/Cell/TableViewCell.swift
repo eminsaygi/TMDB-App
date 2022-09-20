@@ -35,6 +35,7 @@ class TableViewCell: UITableViewCell {
         }
         
         self.titleLabel.text = movie.title
+        
         self.relaseLabel.text = Utils.formattedDateFromString(dateString: movie.releaseDate ?? "", withFormat: "dd.MM.yyyy")
     }
 }
