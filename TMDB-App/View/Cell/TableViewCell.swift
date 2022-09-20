@@ -13,6 +13,7 @@ class TableViewCell: UITableViewCell {
     @IBOutlet weak var movieImage: UIImageView!
     @IBOutlet weak var relaseLabel: UILabel!
     
+    @IBOutlet weak var voteAverageLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     
     
@@ -33,7 +34,7 @@ class TableViewCell: UITableViewCell {
         }
         
         self.titleLabel.text = movie.title
-        
+        self.voteAverageLabel.text = "\(movie.voteAverage)/10"
         self.relaseLabel.text = Utils.formattedDateFromString(dateString: movie.releaseDate ?? "", withFormat: "dd.MM.yyyy")
     }
 }
