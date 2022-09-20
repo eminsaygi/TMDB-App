@@ -15,6 +15,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     var overViewText = ""
     var relaseText = ""
     var imageUrl = ""
+    var voteAverageText = 0.0
     
     var movieModel = [Movie?]()
     var movieWebService = WebServices()
@@ -41,6 +42,17 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         
     }
     
+    /*
+     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+     try! FileManager.default.removeItem(atPath: NSHomeDirectory()+"/Library/SplashBoard")
+     
+     do {
+     sleep(70)
+     }
+     
+     return true
+     }
+     */
     func movieTableRefreshControl(){
         movieTable.refreshControl = UIRefreshControl()
         movieTable.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
@@ -50,7 +62,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let search = UISearchController(searchResultsController: nil)
         search.searchResultsUpdater = self
         search.obscuresBackgroundDuringPresentation = false
-        search.searchBar.placeholder = "Type something here to Search Movies"
+        search.searchBar.placeholder = "Type something here to search movies"
         navigationItem.searchController = search
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -72,9 +84,14 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        
+        
+        
         titleText = (self.movieModel[indexPath.row]?.title) ?? ""
         relaseText = Utils.formattedDateFromString(dateString: self.movieModel[indexPath.row]?.releaseDate ?? "", withFormat: "dd.MM.yyyy") ?? ""
         overViewText = (self.movieModel[indexPath.row]?.overview) ?? ""
+        voteAverageText = Double((self.movieModel[indexPath.row]?.voteAverage) ?? Double(7.7))
+        print(voteAverageText)
         let imageUrl = "\(API.imageURL)\(self.movieModel[indexPath.row]?.posterPath ?? "")"
         self.imageUrl = imageUrl
         
@@ -105,6 +122,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             detailVC?.titleText = titleText
             detailVC?.relaseText = relaseText
             detailVC?.overViewText = overViewText
+            detailVC?.voteAverageText = Double(voteAverageText)
             detailVC?.imageUrl = imageUrl
             
         }
@@ -117,6 +135,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     
     @objc private func didPullToRefresh(){
+        movieModel.removeAll() // We cleaned the arrays in the array. So we blocked ram loading
         WebServices.getDiscoverMovies()
     }
     

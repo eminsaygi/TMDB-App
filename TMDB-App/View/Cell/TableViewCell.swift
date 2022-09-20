@@ -9,8 +9,6 @@ import UIKit
 
 class TableViewCell: UITableViewCell {
     
-    var movieModel = [Movie?]()
-    
     
     @IBOutlet weak var movieImage: UIImageView!
     @IBOutlet weak var relaseLabel: UILabel!

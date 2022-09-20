@@ -14,7 +14,9 @@ class DetailsViewController: UIViewController {
     var overViewText = ""
     var relaseText = ""
     var imageUrl = ""
+    var voteAverageText = 0.0
     
+    @IBOutlet weak var voteAverageLabel: UILabel!
     @IBOutlet weak var overViewTextFiled: UITextView!
     @IBOutlet weak var releaseLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
@@ -29,6 +31,7 @@ class DetailsViewController: UIViewController {
         titleLabel.text = titleText
         releaseLabel.text = relaseText
         overViewTextFiled.text = overViewText
+        voteAverageLabel.text = "\(voteAverageText)/10"
         let url = URL(string: imageUrl)
         imageView.kf.setImage(with: url)
     }
