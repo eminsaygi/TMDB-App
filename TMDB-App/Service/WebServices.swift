@@ -20,35 +20,36 @@ final class WebServices {
     
     static func getDiscoverMovies() {
         
-        let discoverURL = URL(string: "\(API.discoverURL)")
+        let discoverURL = URL(string: API.discoverURL)
         URLSession.shared.dataTask(with: discoverURL!) {
             (data, response, error) in
             guard let safeData = data else { return}
             do {
                 if error == nil {
                     let jsonData =
-                    try JSONDecoder().decode(MovieViewModel.self, from: safeData)
+                    try JSONDecoder().decode(Movies.self, from: safeData)
                     
                     self.delegate?.didUpdateMovies(movies: jsonData.results!)
                     
                 }
             } catch {
-                print("Error")
+                
+                print("Error: \(error)")
             }
         }.resume()
         
         
     }
     
-    static func getSearchMovies(with text: String) {
-        let searchURL = URL(string: "\(API.searchURL)\(text)")
+    static func getSearchMovies(with query: String) {
+        let searchURL = URL(string: (API.searchURL) + (query))
         URLSession.shared.dataTask(with: searchURL!) {
             (data, response, error) in
             guard let safeData = data else { return}
             do {
                 if error == nil {
                     let jsonData =
-                    try JSONDecoder().decode(MovieViewModel.self, from: safeData)
+                    try JSONDecoder().decode(Movies.self, from: safeData)
                     WebServices.delegate?.didUpdateMovies(movies: jsonData.results!)
                     
                     
@@ -61,34 +62,32 @@ final class WebServices {
         
     }
     
+    static func getMovieDetail(with id: Int) {
+        let searchURL = URL(string: "https://api.themoviedb.org/3/movie/\(id)?api_key=464f8a5567ef6de84d256d195532ca13&language=en-US")
+        URLSession.shared.dataTask(with: searchURL!) {
+            (data, response, error) in
+            guard let safeData = data else { return}
+            do {
+                if error == nil {
+                    let jsonData =
+                    try JSONDecoder().decode(Movie.self, from: safeData)
+                    WebServices.delegate?.didUpdateMovieDetail(movie: jsonData)
+                    
+                    
+                }
+            } catch {
+                print("Error")
+            }
+        }.resume()
+        
+        
+    }
     
     
 }
 // MARK: - We used delegate to call from other classes
+
 protocol WebServicesDelegate {
     func didUpdateMovies(movies: [Movie])
+    func didUpdateMovieDetail(movie: Movie)
 }
-
-// MARK: - Alamofire
-/*
- static func getUpComingMovieList( successHandler: @escaping( DiscoverResponseModel?)->()){
- 
- AF.request(url2).responseDecodable { (response:AFDataResponse<DiscoverResponseModel>) in
- 
- switch(response.result){
- 
- case .success(let responseData):
- 
- successHandler(responseData)
- 
- break
- 
- case .failure(let error):
- 
- // print("getUpComingMovieList" + error.localizedDescription)
- 
- break
- }
- }
- }
- */

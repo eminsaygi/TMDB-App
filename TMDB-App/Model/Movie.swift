@@ -7,6 +7,21 @@
 
 import Foundation
 
+struct Movies: Codable {
+    let page: Int?
+    var results: [Movie]?
+    let totalPages: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        case page, results
+        case totalPages = "total_pages"
+        
+    }
+    
+    
+}
+
+
 struct Movie: Codable {
     let id: Int?
     let voteAverage: Double

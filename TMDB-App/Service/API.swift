@@ -17,7 +17,7 @@ class API: NSObject {
     }
     
     static var imageURL: String {
-        return "https://image.tmdb.org/t/p/w500/"
+        return "https://image.tmdb.org/t/p/w500"
     }
     static var searchURL: String {
         

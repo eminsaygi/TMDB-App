@@ -7,20 +7,15 @@
 
 import UIKit
 import Kingfisher
-class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchResultsUpdating {
+class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchResultsUpdating {
+  
     
-    let refreshControl = UIRefreshControl()
-    
-    var titleText = ""
-    var overViewText = ""
-    var relaseText = ""
-    var imageUrl = ""
-    var voteAverageText = 0.0
+    var id = 0
     
     var movieModel = [Movie?]()
-    var movieWebService = WebServices()
     
     
+
     @IBOutlet weak var movieTable: UITableView!
     
     private var movieTableViewModel : TableViewCell!
@@ -34,7 +29,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         
         WebServices.delegate = self
         WebServices.getDiscoverMovies()
-        // webService.AlomofireFetch()
         
         searchController()
         
@@ -42,17 +36,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         
     }
     
-    /*
-     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-     try! FileManager.default.removeItem(atPath: NSHomeDirectory()+"/Library/SplashBoard")
-     
-     do {
-     sleep(70)
-     }
-     
-     return true
-     }
-     */
     func movieTableRefreshControl(){
         movieTable.refreshControl = UIRefreshControl()
         movieTable.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
@@ -78,52 +61,20 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let cell : TableViewCell = movieTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
         
         cell.movieDataFetch(movie: movieModel[indexPath.row]!)
-        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        
-        
-        
-        titleText = (self.movieModel[indexPath.row]?.title) ?? ""
-        relaseText = Utils.formattedDateFromString(dateString: self.movieModel[indexPath.row]?.releaseDate ?? "", withFormat: "dd.MM.yyyy") ?? ""
-        overViewText = (self.movieModel[indexPath.row]?.overview) ?? ""
-        voteAverageText = Double((self.movieModel[indexPath.row]?.voteAverage) ?? Double(7.7))
-        print(voteAverageText)
-        let imageUrl = "\(API.imageURL)\(self.movieModel[indexPath.row]?.posterPath ?? "")"
-        self.imageUrl = imageUrl
-        
+        id = movieModel[indexPath.row]?.id ?? 0
+
         performSegue(withIdentifier: "toDetailVC", sender: nil)
-        
-        
-        /*
-         let details: DetailsViewController = self.storyboard?.instantiateViewController(identifier: "DetailsViewController") as!DetailsViewController
-         navigationController?.pushViewController(details, animated: true)
-         */
-        // let url = URL(string: "\(API.imageURL)\(movieModel[indexPath.row]?.posterPath ?? "")")
-        //DispatchQueue.main.async {
-        
-        // details.imageView.kf.setImage(with: url)
-        /*
-         }
-         DispatchQueue.main.async {
-         details.releaseLabel.text = Utils.formattedDateFromString(dateString: self.movieModel[indexPath.row]?.releaseDate ?? "", withFormat: "dd.MM.yyyy")
-         details.titleLabel.text = self.movieModel[indexPath.row]?.title
-         details.overViewTextFiled.text = self.movieModel[indexPath.row]?.overview
-         }
-         */
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toDetailVC"  {
-            let detailVC = segue.destination as? DetailsViewController
-            detailVC?.titleText = titleText
-            detailVC?.relaseText = relaseText
-            detailVC?.overViewText = overViewText
-            detailVC?.voteAverageText = Double(voteAverageText)
-            detailVC?.imageUrl = imageUrl
+            let detailVC = segue.destination as? MovieDetailVC
+            
+            detailVC?.id = id
             
         }
     }
@@ -139,5 +90,23 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         WebServices.getDiscoverMovies()
     }
     
+    
 }
+
+extension MovieListVC: WebServicesDelegate {
+    func didUpdateMovieDetail(movie: Movie) {
+        
+    }
+    
+    func didUpdateMovies(movies: [Movie]) {
+        self.movieModel = movies //Atama işlemi
+        DispatchQueue.main.async {
+            
+            self.movieTable.refreshControl?.endRefreshing()
+            self.movieTable.reloadData()
+            
+        }
+    }
+}
+
 
