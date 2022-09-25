@@ -10,7 +10,7 @@ import UIKit
 
 
 
-final class WebServices {
+ class WebServices {
     
     
     
@@ -18,9 +18,9 @@ final class WebServices {
     
     // MARK: - URLSession
     
-    static func getDiscoverMovies() {
+    static func getDiscoverMovies(with page: Int ) {
         
-        let discoverURL = URL(string: API.discoverURL)
+        let discoverURL = URL(string: API.discoverURL+"&page=\(page)")
         URLSession.shared.dataTask(with: discoverURL!) {
             (data, response, error) in
             guard let safeData = data else { return}
@@ -28,7 +28,6 @@ final class WebServices {
                 if error == nil {
                     let jsonData =
                     try JSONDecoder().decode(Movies.self, from: safeData)
-                    
                     self.delegate?.didUpdateMovies(movies: jsonData.results!)
                     
                 }
@@ -82,6 +81,7 @@ final class WebServices {
         
         
     }
+    
     
     
 }

@@ -16,7 +16,6 @@ class TableViewCell: UITableViewCell {
     @IBOutlet weak var voteAverageLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         movieImage.backgroundColor = .darkGray
@@ -26,9 +25,8 @@ class TableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         
     }
-    
     func movieDataFetch (movie: Movie){
-        let url = URL(string: "\(API.imageURL)\(movie.posterPath ?? "")")
+               let url = URL(string: "\(API.imageURL)\(movie.posterPath ?? "")")
         DispatchQueue.main.async {
             self.movieImage.kf.setImage(with: url)
         }

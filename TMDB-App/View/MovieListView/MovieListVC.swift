@@ -13,7 +13,7 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     var id = 0
     
     var movieModel = [Movie?]()
-    
+    var movvie = Movies?.self
     
 
     @IBOutlet weak var movieTable: UITableView!
@@ -28,7 +28,7 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
         movieTable.dataSource = self
         
         WebServices.delegate = self
-        WebServices.getDiscoverMovies()
+        WebServices.getDiscoverMovies(with: 1)
         
         searchController()
         
@@ -48,9 +48,10 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
         search.searchBar.placeholder = "Type something here to search movies"
         navigationItem.searchController = search
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if movieModel.count > 0 {
-            return movieModel.count
+            return movieModel.count - 1
         } else {
             return 0
         }
@@ -59,7 +60,6 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : TableViewCell = movieTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
-        
         cell.movieDataFetch(movie: movieModel[indexPath.row]!)
         return cell
     }
@@ -87,7 +87,7 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     
     @objc private func didPullToRefresh(){
         movieModel.removeAll() // We cleaned the arrays in the array. So we blocked ram loading
-        WebServices.getDiscoverMovies()
+        WebServices.getDiscoverMovies(with: 1)
     }
     
     
@@ -101,12 +101,12 @@ extension MovieListVC: WebServicesDelegate {
     func didUpdateMovies(movies: [Movie]) {
         self.movieModel = movies //Atama işlemi
         DispatchQueue.main.async {
-            
             self.movieTable.refreshControl?.endRefreshing()
             self.movieTable.reloadData()
             
         }
     }
-}
+    }
+
 
 
