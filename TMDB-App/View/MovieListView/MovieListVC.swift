@@ -8,17 +8,14 @@
 import UIKit
 import Kingfisher
 class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchResultsUpdating {
-  
     
-    var id = 0
+    private var moviesTableViewModel : MoviesTableViewModel?
+    
+    var selectedId = 0
     
     var movieModel = [Movie?]()
-    var movvie = Movies?.self
     
-
     @IBOutlet weak var movieTable: UITableView!
-    
-    private var movieTableViewModel : TableViewCell!
     
     
     override func viewDidLoad() {
@@ -27,14 +24,34 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
         movieTable.delegate = self
         movieTable.dataSource = self
         
-        WebServices.delegate = self
-        WebServices.getDiscoverMovies(with: 1)
-        
         searchController()
         
         movieTableRefreshControl()
         
+        fetchMovieData()
+        
     }
+    
+    
+    func fetchMovieData(){
+        WebServices.shared.getMovie() { result in
+            
+            switch result {
+            case .success(let success):
+                DispatchQueue.main.async {
+                    self.moviesTableViewModel = MoviesTableViewModel(movieList: success)
+                    self.movieTable.reloadData()
+                    
+                }
+                
+            case.failure(let error):
+                print(error)
+            }
+            
+            
+        }
+    }
+    
     
     func movieTableRefreshControl(){
         movieTable.refreshControl = UIRefreshControl()
@@ -50,23 +67,20 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if movieModel.count > 0 {
-            return movieModel.count - 1
-        } else {
-            return 0
-        }
+        return moviesTableViewModel?.numberOfRowsInSection() ?? 0
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : TableViewCell = movieTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
-        cell.movieDataFetch(movie: movieModel[indexPath.row]!)
+        cell.movieDataFetch(movie: (moviesTableViewModel?.movieList[indexPath.row])!)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        id = movieModel[indexPath.row]?.id ?? 0
-
+        
+        selectedId = moviesTableViewModel?.movieList[indexPath.row].id ?? 0
+        
         performSegue(withIdentifier: "toDetailVC", sender: nil)
     }
     
@@ -74,39 +88,43 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
         if segue.identifier == "toDetailVC"  {
             let detailVC = segue.destination as? MovieDetailVC
             
-            detailVC?.id = id
+            detailVC?.id = selectedId
+            
             
         }
     }
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
         if text.count > 1 {
-            WebServices.getSearchMovies(with: text)
+            
+            WebServices.shared.getSearchMovies(query: text) { result in
+                
+                switch result {
+                case .success(let success):
+                    DispatchQueue.main.async {
+                        
+                        self.moviesTableViewModel = MoviesTableViewModel(movieList: success)
+                        self.movieTable.reloadData()
+                        
+                    }
+                    
+                case.failure(let error):
+                    print(error)
+                }
+                
+                
+            }
         }
     }
     
     @objc private func didPullToRefresh(){
-        movieModel.removeAll() // We cleaned the arrays in the array. So we blocked ram loading
-        WebServices.getDiscoverMovies(with: 1)
+        fetchMovieData()
+        
     }
     
     
 }
 
-extension MovieListVC: WebServicesDelegate {
-    func didUpdateMovieDetail(movie: Movie) {
-        
-    }
-    
-    func didUpdateMovies(movies: [Movie]) {
-        self.movieModel = movies //Atama işlemi
-        DispatchQueue.main.async {
-            self.movieTable.refreshControl?.endRefreshing()
-            self.movieTable.reloadData()
-            
-        }
-    }
-    }
 
 
 

@@ -18,6 +18,7 @@ class TableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        movieImage.layer.cornerRadius = 7.0
         movieImage.backgroundColor = .darkGray
     }
     
