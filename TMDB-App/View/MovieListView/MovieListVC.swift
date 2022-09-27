@@ -13,23 +13,18 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     
     var selectedId = 0
     
-    var movieModel = [Movie?]()
-    
+    var movieDetailModel = MovieDetailModel?.self
     @IBOutlet weak var movieTable: UITableView!
     
-    
-    override func viewDidLoad() {
+    override func viewDidLoad()  {
         super.viewDidLoad()
         
         movieTable.delegate = self
         movieTable.dataSource = self
         
         searchController()
-        
         movieTableRefreshControl()
-        
         fetchMovieData()
-        
     }
     
     
@@ -40,6 +35,7 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
             case .success(let success):
                 DispatchQueue.main.async {
                     self.moviesTableViewModel = MoviesTableViewModel(movieList: success)
+                    
                     self.movieTable.reloadData()
                     
                 }
@@ -53,19 +49,7 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     }
     
     
-    func movieTableRefreshControl(){
-        movieTable.refreshControl = UIRefreshControl()
-        movieTable.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
-    }
-    
-    func searchController(){
-        let search = UISearchController(searchResultsController: nil)
-        search.searchResultsUpdater = self
-        search.obscuresBackgroundDuringPresentation = false
-        search.searchBar.placeholder = "Type something here to search movies"
-        navigationItem.searchController = search
-    }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return moviesTableViewModel?.numberOfRowsInSection() ?? 0
         
@@ -80,8 +64,8 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         selectedId = moviesTableViewModel?.movieList[indexPath.row].id ?? 0
-        
         performSegue(withIdentifier: "toDetailVC", sender: nil)
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -126,5 +110,19 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
 }
 
 
-
+extension MovieListVC {
+    func movieTableRefreshControl(){
+        movieTable.refreshControl = UIRefreshControl()
+        movieTable.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
+    }
+    
+    func searchController(){
+        let search = UISearchController(searchResultsController: nil)
+        search.searchResultsUpdater = self
+        search.obscuresBackgroundDuringPresentation = false
+        search.searchBar.placeholder = "Type something here to search movies"
+        navigationItem.searchController = search
+    }
+    
+}
 

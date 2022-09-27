@@ -132,7 +132,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bB5-kP-eMs">
-                                <rect key="frame" x="0.0" y="44" width="390" height="362"/>
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="406"/>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="tWU-df-KUt">
                                 <rect key="frame" x="16" y="544" width="358" height="266"/>
@@ -209,7 +209,7 @@
                             <constraint firstItem="iJI-S7-oOV" firstAttribute="trailing" secondItem="tWU-df-KUt" secondAttribute="trailing" id="osZ-uU-ijG"/>
                             <constraint firstItem="tWU-df-KUt" firstAttribute="top" secondItem="nJW-3D-oYN" secondAttribute="bottom" constant="81" id="rcY-43-ZuY"/>
                             <constraint firstItem="ods-1w-mD6" firstAttribute="top" secondItem="iJI-S7-oOV" secondAttribute="bottom" constant="-94" id="ruF-lG-Pu4"/>
-                            <constraint firstItem="bB5-kP-eMs" firstAttribute="top" secondItem="RYy-Bn-T9M" secondAttribute="topMargin" constant="-47" id="yIU-QV-qs5"/>
+                            <constraint firstItem="bB5-kP-eMs" firstAttribute="top" secondItem="RYy-Bn-T9M" secondAttribute="topMargin" constant="-91" id="yIU-QV-qs5"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="hVo-5s-vi1"/>

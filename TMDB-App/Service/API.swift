@@ -13,7 +13,7 @@ class API: NSObject {
     }
     static var discoverURL: String {
         
-        return "\(baseURL)/3/discover/movie?sort_by=popularity.desc&api_key=\(apiKey)"
+        return "\(baseURL)/3/discover/movie?sort_by=vote_count.desc&api_key=\(apiKey)"
     }
     
     static var imageURL: String {

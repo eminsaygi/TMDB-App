@@ -9,11 +9,8 @@ import UIKit
 import Kingfisher
 
 class MovieDetailVC: UIViewController {
-
+    
     var id = 0
-    private var moviesTableViewModel : MoviesTableViewModel?
-    var movieModel = [Movie?]()
-
     @IBOutlet weak var voteAverageLabel: UILabel!
     @IBOutlet weak var overViewTextFiled: UITextView!
     @IBOutlet weak var releaseLabel: UILabel!
@@ -21,38 +18,38 @@ class MovieDetailVC: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     override func viewDidLoad(){
         super.viewDidLoad()
+        imageView.backgroundColor = .darkGray
         
-        fetc()
-     
+        getDetailData()
     }
     
-    func fetc(){
-        let url = "https://api.themoviedb.org/3/movie/\(id)?api_key=464f8a5567ef6de84d256d195532ca13&language=en-US"
-        WebServices.shared.getMovVVieDetail(url: url) { result in
-            
-            
+    func getDetailData(){
+        WebServices.shared.getMovieDetail(id: id){ result in
+            switch result {
+            case .success(let success):
+                DispatchQueue.main.async {
+                    self.titleLabel.text = success.title
+                    self.releaseLabel.text = success.releaseDate
+                    self.overViewTextFiled.text = success.overview
+                    self.voteAverageLabel.text = "\(Int(success.voteAverage))/10"
+                    let url = URL(string: "\(API.imageURL)\(success.posterPath!)")
+                    self.imageView.kf.setImage(with: url)
+                }
+            case.failure(let error):
+                print("hata",error)
+            }
         }
     }
-     
+    
+    
+    
+    
+    
 }
 
-/*
-     
-     func didUpdateMovieDetail(movie: Movie) {
-         DispatchQueue.main.async {
-             //self.titleLabel.text = movie.title
-             self.releaseLabel.text = movie.releaseDate
-             self.overViewTextFiled.text = movie.overview
-             self.voteAverageLabel.text = "\(movie.voteAverage)/10"
-             //*
-             let url = URL(string: "\(API.imageURL)\(movie.posterPath!)")
-             self.imageView.kf.setImage(with: url)
-         }
-        
-     }
-     
-     
- }
- */
 
- */
+
+
+
+
+

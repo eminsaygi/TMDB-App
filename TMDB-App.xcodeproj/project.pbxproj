@@ -21,6 +21,8 @@
 		3CDEBE1E28D3222000EEFCF0 /* MovieDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDEBE1D28D3222000EEFCF0 /* MovieDetailVC.swift */; };
 		3CDEBE2028D3249800EEFCF0 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDEBE1F28D3249800EEFCF0 /* TableViewCell.swift */; };
 		3CDEBE2328D324D700EEFCF0 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDEBE2228D324D700EEFCF0 /* Utils.swift */; };
+		3CF983C728E2E64A00FA8FCA /* MovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF983C628E2E64A00FA8FCA /* MovieViewModel.swift */; };
+		3CF983C928E2F04200FA8FCA /* MovieDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF983C828E2F04200FA8FCA /* MovieDetailModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,8 @@
 		3CDEBE1D28D3222000EEFCF0 /* MovieDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailVC.swift; sourceTree = "<group>"; };
 		3CDEBE1F28D3249800EEFCF0 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		3CDEBE2228D324D700EEFCF0 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		3CF983C628E2E64A00FA8FCA /* MovieViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieViewModel.swift; sourceTree = "<group>"; };
+		3CF983C828E2F04200FA8FCA /* MovieDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailModel.swift; sourceTree = "<group>"; };
 		4061895B1E822ABF4779638C /* Pods-TMDB-App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TMDB-App.debug.xcconfig"; path = "Target Support Files/Pods-TMDB-App/Pods-TMDB-App.debug.xcconfig"; sourceTree = "<group>"; };
 		445D8DEF9F4EC399A3D9F188 /* Pods-TMDB-App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TMDB-App.release.xcconfig"; path = "Target Support Files/Pods-TMDB-App/Pods-TMDB-App.release.xcconfig"; sourceTree = "<group>"; };
 		F1F983E536EBDEB7773B9F5A /* Pods_TMDB_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TMDB_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				3C4CA04728D3752A00CC631E /* Movie.swift */,
+				3CF983C828E2F04200FA8FCA /* MovieDetailModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -119,6 +124,7 @@
 		3CDEBE0428D3124D00EEFCF0 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				3CF983C628E2E64A00FA8FCA /* MovieViewModel.swift */,
 				3C76273B28E0F10300DDC07E /* MoviesViewModel.swift */,
 			);
 			path = ViewModel;
@@ -307,6 +313,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3CDEBE2028D3249800EEFCF0 /* TableViewCell.swift in Sources */,
+				3CF983C928E2F04200FA8FCA /* MovieDetailModel.swift in Sources */,
 				3CDA4DFD28D30D2400DF82C3 /* MovieListVC.swift in Sources */,
 				3C4CA04828D3752A00CC631E /* Movie.swift in Sources */,
 				3CDEBE2328D324D700EEFCF0 /* Utils.swift in Sources */,
@@ -314,6 +321,7 @@
 				3CDEBE0D28D3151C00EEFCF0 /* WebServices.swift in Sources */,
 				3CDA4DF928D30D2400DF82C3 /* AppDelegate.swift in Sources */,
 				3CDA4DFB28D30D2400DF82C3 /* SceneDelegate.swift in Sources */,
+				3CF983C728E2E64A00FA8FCA /* MovieViewModel.swift in Sources */,
 				3CDEBE0F28D3158100EEFCF0 /* API.swift in Sources */,
 				3CDEBE1E28D3222000EEFCF0 /* MovieDetailVC.swift in Sources */,
 			);

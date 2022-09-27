@@ -11,8 +11,9 @@ import UIKit
 
 class WebServices {
     static let shared = WebServices()
-    // MARK: - URLSession
     
+    // MARK: - URLSession
+    //var result : Movie?
     // Asenkron olan işlem bittikten sonraki işlem için kullanılıyor.
     //Escaping closures
     // closures içerisinde foknsiyon içerisinde işlem bittikten sonra bir işlem yapmam gerekiyorsa escaping kullanmak gerekiyor.
@@ -26,7 +27,7 @@ class WebServices {
             do {
                 let result = try JSONDecoder().decode(Movies.self, from: data)
                 completion(.success(result.results))
-
+                
             }
             catch {
                 completion(.failure(error))
@@ -34,8 +35,9 @@ class WebServices {
         }
         task.resume()
     }
-    func getMovVVieDetail(url: String, completion: @escaping(Result<Movie, Error>)->()){
-        guard let searchURL = URL(string: url) else {return}
+    
+    func getMovieDetail(id: Int, completion: @escaping(Result<Movie, Error>)->()){
+        guard let searchURL = URL(string: "https://api.themoviedb.org/3/movie/\(id)?api_key=464f8a5567ef6de84d256d195532ca13&language=en-US") else {return}
         let task = URLSession.shared.dataTask(with: URLRequest(url: searchURL)) { data, _, error in
             guard let data = data, error == nil else {
                 return
@@ -45,9 +47,11 @@ class WebServices {
                 completion(.success(result))
             }
             catch {
-             
+                
                 completion(.failure(error))
             }
+            
+            
         }
         task.resume()
     }
@@ -68,40 +72,4 @@ class WebServices {
         }
         task.resume()
     }
-
-        
-      
-        
-        /*
-         static func getMovieDetail(with id: Int) {
-         let searchURL = URL(string: "https://api.themoviedb.org/3/movie/\(id)?api_key=464f8a5567ef6de84d256d195532ca13&language=en-US")
-         URLSession.shared.dataTask(with: searchURL!) {
-         (data, response, error) in
-         guard let safeData = data else { return}
-         do {
-         if error == nil {
-         let jsonData =
-         try JSONDecoder().decode(Movie.self, from: safeData)
-         
-         
-         }
-         } catch {
-         print("Error")
-         }
-         }.resume()
-         
-         
-         }
-         */
-        
-        
-        
-        
-    }
-    // MARK: - We used delegate to call from other classes
-    
-    
-    
-    
-    
-
+}
