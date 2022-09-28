@@ -9,11 +9,15 @@ import UIKit
 import Kingfisher
 class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchResultsUpdating {
     
+    var currentPage: Int = 1
+    var totalPages: Int = 1000
+    
+    private var upcomingMovies: [Movie] = [Movie]()
+
     private var moviesTableViewModel : MoviesTableViewModel?
     
     var selectedId = 0
     
-    var movieDetailModel = MovieDetailModel?.self
     @IBOutlet weak var movieTable: UITableView!
     
     override func viewDidLoad()  {
@@ -23,34 +27,28 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
         movieTable.dataSource = self
         
         searchController()
-        movieTableRefreshControl()
         fetchMovieData()
     }
     
     
     func fetchMovieData(){
-        WebServices.shared.getMovie() { result in
+        WebServices.shared.getMovie(page: currentPage) { [weak self] result in
             
             switch result {
             case .success(let success):
                 DispatchQueue.main.async {
-                    self.moviesTableViewModel = MoviesTableViewModel(movieList: success)
-                    
-                    self.movieTable.reloadData()
+                    self!.moviesTableViewModel = MoviesTableViewModel(movieList: success)
+                    self!.movieTable.reloadData()
                     
                 }
                 
             case.failure(let error):
                 print(error)
             }
-            
-            
         }
     }
     
-    
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return moviesTableViewModel?.numberOfRowsInSection() ?? 0
         
     }
@@ -58,6 +56,15 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : TableViewCell = movieTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
         cell.movieDataFetch(movie: (moviesTableViewModel?.movieList[indexPath.row])!)
+        
+        if currentPage < totalPages {
+            if indexPath.row == (moviesTableViewModel?.numberOfRowsInSection() ?? 2) - 1 {
+                print("PAGEE",currentPage)
+                currentPage += 1
+                print("PAGE:", currentPage)
+                fetchMovieData()
+            }
+        }
         return cell
     }
     
@@ -72,49 +79,18 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
         if segue.identifier == "toDetailVC"  {
             let detailVC = segue.destination as? MovieDetailVC
             
-            detailVC?.id = selectedId
+            detailVC?.selectedId = selectedId
             
             
         }
     }
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else { return }
-        if text.count > 1 {
-            
-            WebServices.shared.getSearchMovies(query: text) { result in
-                
-                switch result {
-                case .success(let success):
-                    DispatchQueue.main.async {
-                        
-                        self.moviesTableViewModel = MoviesTableViewModel(movieList: success)
-                        self.movieTable.reloadData()
-                        
-                    }
-                    
-                case.failure(let error):
-                    print(error)
-                }
-                
-                
-            }
-        }
-    }
-    
-    @objc private func didPullToRefresh(){
-        fetchMovieData()
-        
-    }
-    
     
 }
 
 
+
 extension MovieListVC {
-    func movieTableRefreshControl(){
-        movieTable.refreshControl = UIRefreshControl()
-        movieTable.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
-    }
+ 
     
     func searchController(){
         let search = UISearchController(searchResultsController: nil)
@@ -122,7 +98,39 @@ extension MovieListVC {
         search.obscuresBackgroundDuringPresentation = false
         search.searchBar.placeholder = "Type something here to search movies"
         navigationItem.searchController = search
+        
+        movieTable.refreshControl = UIRefreshControl()
+        movieTable.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
     }
+    @objc private func didPullToRefresh(){
+        currentPage = 1
+        fetchMovieData()
+        
+    }
+    
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else { return }
+        if text.count > 1 {
+            
+            WebServices.shared.getSearchMovies(query: text) { [weak self] result in
+                
+                switch result {
+                case .success(let success):
+                    DispatchQueue.main.async {
+                        
+                        self!.moviesTableViewModel = MoviesTableViewModel(movieList: success)
+                        self!.movieTable.reloadData()
+                        
+                    }
+                    
+                case.failure(let error):
+                    print(error)
+                }
+            }
+        }
+    }
+    
     
 }
 

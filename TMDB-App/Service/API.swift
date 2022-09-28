@@ -23,6 +23,10 @@ class API: NSObject {
         
         return "\(baseURL)/3/search/movie?api_key=\(apiKey)&query="
     }
+    static var detailURL: String {
+
+        return  " \(baseURL)/3/movie/"
+    }
     
     static let apiKey = "464f8a5567ef6de84d256d195532ca13"
 }

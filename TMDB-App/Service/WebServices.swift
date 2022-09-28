@@ -17,8 +17,9 @@ class WebServices {
     // Asenkron olan işlem bittikten sonraki işlem için kullanılıyor.
     //Escaping closures
     // closures içerisinde foknsiyon içerisinde işlem bittikten sonra bir işlem yapmam gerekiyorsa escaping kullanmak gerekiyor.
-    func getMovie(completion: @escaping(Result<[Movie], Error>)->()){
-        guard let url = URL(string: API.discoverURL) else {return}
+    func getMovie(page:Int,completion: @escaping(Result<[Movie], Error>)->()){
+
+        guard let url = URL(string: API.discoverURL+"&page=\(page)") else {return}
         
         let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _, error in
             guard let data = data, error == nil else {
@@ -37,8 +38,8 @@ class WebServices {
     }
     
     func getMovieDetail(id: Int, completion: @escaping(Result<Movie, Error>)->()){
-        guard let searchURL = URL(string: "https://api.themoviedb.org/3/movie/\(id)?api_key=464f8a5567ef6de84d256d195532ca13&language=en-US") else {return}
-        let task = URLSession.shared.dataTask(with: URLRequest(url: searchURL)) { data, _, error in
+        guard let url = URL(string: "\(API.baseURL)/3/movie/\(id)?api_key=\(API.apiKey)&language=en-US") else {return}
+        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _, error in
             guard let data = data, error == nil else {
                 return
             }
@@ -50,8 +51,6 @@ class WebServices {
                 
                 completion(.failure(error))
             }
-            
-            
         }
         task.resume()
     }

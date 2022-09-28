@@ -10,7 +10,7 @@ import Kingfisher
 
 class MovieDetailVC: UIViewController {
     
-    var id = 0
+    var selectedId = 0
     @IBOutlet weak var voteAverageLabel: UILabel!
     @IBOutlet weak var overViewTextFiled: UITextView!
     @IBOutlet weak var releaseLabel: UILabel!
@@ -24,7 +24,7 @@ class MovieDetailVC: UIViewController {
     }
     
     func getDetailData(){
-        WebServices.shared.getMovieDetail(id: id){ result in
+        WebServices.shared.getMovieDetail(id: selectedId){ result in
             switch result {
             case .success(let success):
                 DispatchQueue.main.async {
