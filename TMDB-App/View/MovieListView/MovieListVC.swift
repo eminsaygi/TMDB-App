@@ -6,15 +6,14 @@
 //
 
 import UIKit
-import Kingfisher
+
 class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchResultsUpdating {
     
     var currentPage: Int = 1
-    var totalPages: Int = 1000
     
-    private var upcomingMovies: [Movie] = [Movie]()
-
-    private var moviesTableViewModel : MoviesTableViewModel?
+    private var moviesData: [Movie] = [Movie]()
+    private var isFetchData : Bool = false
+    
     
     var selectedId = 0
     
@@ -25,20 +24,23 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
         
         movieTable.delegate = self
         movieTable.dataSource = self
-        
         searchController()
         fetchMovieData()
     }
     
     
     func fetchMovieData(){
-        WebServices.shared.getMovie(page: currentPage) { [weak self] result in
+        WebServices.shared.getMovie(page: currentPage) {  result in
             
             switch result {
-            case .success(let success):
+            case .success(let data):
                 DispatchQueue.main.async {
-                    self!.moviesTableViewModel = MoviesTableViewModel(movieList: success)
-                    self!.movieTable.reloadData()
+                    self.moviesData.append(contentsOf: data)
+                   // self.moviesData = data
+                    print("yakala" ,self.moviesData)
+                    self.movieTable.reloadData()
+                    self.currentPage += 1
+                    
                     
                 }
                 
@@ -48,32 +50,52 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
         }
     }
     
-   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return moviesTableViewModel?.numberOfRowsInSection() ?? 0
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return moviesData.count
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : TableViewCell = movieTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
-        cell.movieDataFetch(movie: (moviesTableViewModel?.movieList[indexPath.row])!)
+        cell.movieDataFetch(movie: (moviesData[indexPath.row]))
         
-        if currentPage < totalPages {
-            if indexPath.row == (moviesTableViewModel?.numberOfRowsInSection() ?? 2) - 1 {
-                print("PAGEE",currentPage)
-                currentPage += 1
-                print("PAGE:", currentPage)
-                fetchMovieData()
-            }
-        }
+     
+    
         return cell
     }
     
+ 
+    
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        selectedId = moviesTableViewModel?.movieList[indexPath.row].id ?? 0
+        selectedId = moviesData[indexPath.row].id ?? 0
         performSegue(withIdentifier: "toDetailVC", sender: nil)
         
     }
+    
+    
+    
+}
+
+extension MovieListVC: UITableViewDataSourcePrefetching{
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        for index in indexPaths {
+            if index.row >= moviesData.count - 3 {
+                fetchMovieData()
+                print("Page:" , currentPage)
+
+                
+            }
+        }
+    }
+    
+    
+}
+
+
+
+extension MovieListVC {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toDetailVC"  {
@@ -84,13 +106,6 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
             
         }
     }
-    
-}
-
-
-
-extension MovieListVC {
- 
     
     func searchController(){
         let search = UISearchController(searchResultsController: nil)
@@ -103,6 +118,7 @@ extension MovieListVC {
         movieTable.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
     }
     @objc private func didPullToRefresh(){
+        moviesData.removeAll()
         currentPage = 1
         fetchMovieData()
         
@@ -119,7 +135,7 @@ extension MovieListVC {
                 case .success(let success):
                     DispatchQueue.main.async {
                         
-                        self!.moviesTableViewModel = MoviesTableViewModel(movieList: success)
+                        self!.moviesData = success
                         self!.movieTable.reloadData()
                         
                     }
