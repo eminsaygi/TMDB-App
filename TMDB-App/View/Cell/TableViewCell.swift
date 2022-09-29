@@ -18,8 +18,8 @@ class TableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        //movieImage.layer.cornerRadius = 7.0
-        //movieImage.backgroundColor = .darkGray
+        movieImage.layer.cornerRadius = 7.0
+        movieImage.backgroundColor = .darkGray
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -27,7 +27,7 @@ class TableViewCell: UITableViewCell {
         
     }
     func movieDataFetch (movie: Movie){
-               let url = URL(string: "\(API.imageURL)\(movie.posterPath ?? "")")
+        let url = URL(string: "\(API().imageURL)\(movie.posterPath ?? "")")
         DispatchQueue.main.async {
             self.movieImage.kf.setImage(with: url)
         }

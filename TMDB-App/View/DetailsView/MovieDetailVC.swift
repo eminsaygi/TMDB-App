@@ -20,6 +20,7 @@ class MovieDetailVC: UIViewController {
         super.viewDidLoad()
         imageView.backgroundColor = .darkGray
         
+       
         getDetailData()
     }
     
@@ -32,7 +33,7 @@ class MovieDetailVC: UIViewController {
                     self.releaseLabel.text = success.releaseDate
                     self.overViewTextFiled.text = success.overview
                     self.voteAverageLabel.text = "\(Int(success.voteAverage))/10"
-                    let url = URL(string: "\(API.imageURL)\(success.posterPath!)")
+                    let url = URL(string: "\(API().imageURL)\(success.posterPath!)")
                     self.imageView.kf.setImage(with: url)
                 }
             case.failure(let error):

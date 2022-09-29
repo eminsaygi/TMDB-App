@@ -18,8 +18,8 @@ class WebServices {
     //Escaping closures
     // closures içerisinde foknsiyon içerisinde işlem bittikten sonra bir işlem yapmam gerekiyorsa escaping kullanmak gerekiyor.
     func getMovie(page:Int,completion: @escaping(Result<[Movie], Error>)->()){
-
-        guard let url = URL(string: API.discoverURL+"&page=\(page)") else {return}
+        
+        guard let url = URL(string: API().discoverURL+"&page=\(page)") else {return}
         
         let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _, error in
             guard let data = data, error == nil else {
@@ -38,7 +38,7 @@ class WebServices {
     }
     
     func getMovieDetail(id: Int, completion: @escaping(Result<Movie, Error>)->()){
-        guard let url = URL(string: "\(API.baseURL)/3/movie/\(id)?api_key=\(API.apiKey)&language=en-US") else {return}
+        guard let url = URL(string: "\(API().baseURL)/3/movie/\(id)?api_key=\(API().apiKey)&language=en-US") else {return}
         let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _, error in
             guard let data = data, error == nil else {
                 return
@@ -56,7 +56,7 @@ class WebServices {
     }
     
     func getSearchMovies(query: String, completion: @escaping(Result<[Movie], Error>)->()){
-        guard let searchURL = URL(string: (API.searchURL) + (query)) else {return}
+        guard let searchURL = URL(string: (API()).searchURL + (query)) else {return}
         let task = URLSession.shared.dataTask(with: URLRequest(url: searchURL)) { data, _, error in
             guard let data = data, error == nil else {
                 return

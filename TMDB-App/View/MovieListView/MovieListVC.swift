@@ -9,23 +9,21 @@ import UIKit
 
 class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchResultsUpdating {
     
+    var moviesData: [Movie] = [Movie]()
+    
     var currentPage: Int = 1
-    
-    private var moviesData: [Movie] = [Movie]()
-    private var isFetchData : Bool = false
-    
-    
     var selectedId = 0
     
     @IBOutlet weak var movieTable: UITableView!
     
     override func viewDidLoad()  {
         super.viewDidLoad()
-        
         movieTable.delegate = self
         movieTable.dataSource = self
         searchController()
         fetchMovieData()
+        
+        
     }
     
     
@@ -36,7 +34,6 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
             case .success(let data):
                 DispatchQueue.main.async {
                     self.moviesData.append(contentsOf: data)
-                   // self.moviesData = data
                     print("yakala" ,self.moviesData)
                     self.movieTable.reloadData()
                     self.currentPage += 1
@@ -59,12 +56,12 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
         let cell : TableViewCell = movieTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
         cell.movieDataFetch(movie: (moviesData[indexPath.row]))
         
-     
-    
+        
+        
         return cell
     }
     
- 
+    
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -73,30 +70,6 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
         performSegue(withIdentifier: "toDetailVC", sender: nil)
         
     }
-    
-    
-    
-}
-
-extension MovieListVC: UITableViewDataSourcePrefetching{
-    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        for index in indexPaths {
-            if index.row >= moviesData.count - 3 {
-                fetchMovieData()
-                print("Page:" , currentPage)
-
-                
-            }
-        }
-    }
-    
-    
-}
-
-
-
-extension MovieListVC {
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toDetailVC"  {
             let detailVC = segue.destination as? MovieDetailVC
@@ -107,46 +80,28 @@ extension MovieListVC {
         }
     }
     
-    func searchController(){
-        let search = UISearchController(searchResultsController: nil)
-        search.searchResultsUpdater = self
-        search.obscuresBackgroundDuringPresentation = false
-        search.searchBar.placeholder = "Type something here to search movies"
-        navigationItem.searchController = search
-        
-        movieTable.refreshControl = UIRefreshControl()
-        movieTable.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
-    }
-    @objc private func didPullToRefresh(){
-        moviesData.removeAll()
-        currentPage = 1
-        fetchMovieData()
-        
-    }
     
     
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text else { return }
-        if text.count > 1 {
-            
-            WebServices.shared.getSearchMovies(query: text) { [weak self] result in
+}
+
+
+extension MovieListVC: UITableViewDataSourcePrefetching{
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        for index in indexPaths {
+            if index.row >= moviesData.count - 3 {
+                fetchMovieData()
+                print("Page:" , currentPage)
                 
-                switch result {
-                case .success(let success):
-                    DispatchQueue.main.async {
-                        
-                        self!.moviesData = success
-                        self!.movieTable.reloadData()
-                        
-                    }
-                    
-                case.failure(let error):
-                    print(error)
-                }
+                
             }
         }
     }
     
     
 }
+
+
+
+
+
 
