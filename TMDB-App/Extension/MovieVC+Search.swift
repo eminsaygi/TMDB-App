@@ -45,6 +45,8 @@ extension MovieListVC{
         moviesData.removeAll()
         currentPage = 1
         fetchMovieData()
+        lblTitle.text = "Top Rated"
+
         
     }
     

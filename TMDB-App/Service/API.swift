@@ -7,13 +7,14 @@
 
 import Foundation
 
-class API: NSObject {
+class API {
      var baseURL: String {
         return "https://api.themoviedb.org"
     }
      var discoverURL: String {
         
-        return "\(baseURL)/3/discover/movie?sort_by=vote_count.desc&api_key=\(apiKey)"
+        return "\(baseURL)/3/discover/movie?sort_by="
+         //"\(baseURL)/3/discover/movie?sort_by=vote_count.desc&api_key=\(apiKey)"
     }
     
      var imageURL: String {
@@ -21,13 +22,19 @@ class API: NSObject {
     }
      var searchURL: String {
         
-        return "\(baseURL)/3/search/movie?api_key=\(apiKey)&query="
+        return "\(baseURL)/3/search/movie?\(apiKey)&query="
     }
      var detailURL: String {
 
         return  " \(baseURL)/3/movie/"
     }
     
-     let apiKey = "464f8a5567ef6de84d256d195532ca13"
+     let apiKey = "&api_key=464f8a5567ef6de84d256d195532ca13"
 }
 
+struct TypeMovie : Codable {
+    static let voteCount = "vote_count.desc"
+    static let popularity = "popularity.desc"
+    static let upComing = "release_date.desc"
+    
+}
