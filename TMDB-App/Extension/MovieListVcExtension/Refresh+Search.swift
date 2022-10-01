@@ -20,6 +20,15 @@ extension MovieListVC{
         movieTable.refreshControl = UIRefreshControl()
         movieTable.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
     }
+    
+    @objc private func didPullToRefresh(){
+        moviesData.removeAll()
+        currentPage = 1
+        getMovieData(type: TypeMovie.voteCount)
+        lblTitle.text = "Top Rated"
+        movieTable.refreshControl?.endRefreshing()
+    }
+    
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
         if text.count > 1 {
@@ -36,19 +45,9 @@ extension MovieListVC{
                     }
                     
                 case.failure(let error):
-                    print(error)
+                    print("Catch: ", error)
                 }
             }
         }
     }
-    @objc private func didPullToRefresh(){
-        moviesData.removeAll()
-        currentPage = 1
-        fetchMovieData()
-        lblTitle.text = "Top Rated"
-
-        
-    }
-    
-    
 }

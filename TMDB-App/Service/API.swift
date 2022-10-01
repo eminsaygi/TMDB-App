@@ -14,7 +14,6 @@ class API {
      var discoverURL: String {
         
         return "\(baseURL)/3/discover/movie?sort_by="
-         //"\(baseURL)/3/discover/movie?sort_by=vote_count.desc&api_key=\(apiKey)"
     }
     
      var imageURL: String {

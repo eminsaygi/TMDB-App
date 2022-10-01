@@ -40,7 +40,7 @@
                                             </connections>
                                         </button>
                                     </subviews>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>
                                         <constraint firstItem="Fty-2N-lv1" firstAttribute="bottom" secondItem="dDA-cL-706" secondAttribute="bottom" id="C0D-Ym-Rvm"/>
                                         <constraint firstItem="Fty-2N-lv1" firstAttribute="leading" secondItem="AVJ-Ap-1MY" secondAttribute="leading" id="WVD-JJ-mJ8"/>
@@ -150,7 +150,7 @@
                     <connections>
                         <outlet property="lblTitle" destination="dDA-cL-706" id="edd-FK-Pac"/>
                         <outlet property="movieTable" destination="JJj-4n-RGq" id="Juv-CW-4dE"/>
-                        <outlet property="vwDropDown" destination="AVJ-Ap-1MY" id="MKj-rF-rah"/>
+                        <outlet property="viewDropDown" destination="AVJ-Ap-1MY" id="MKj-rF-rah"/>
                         <segue destination="1bJ-tK-vee" kind="show" identifier="toDetailVC" id="OHo-mb-KCH"/>
                     </connections>
                 </viewController>
