@@ -7,8 +7,13 @@
 
 import UIKit
 import DropDown
+import CoreData
 
 class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchResultsUpdating {
+    var nameArray = [String]()
+    var idArray = [UUID]()
+    
+    
     
     var moviesData: [Movie] = [Movie]()
     let dropDown = DropDown()
@@ -25,6 +30,7 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     
     override func viewDidLoad()  {
         super.viewDidLoad()
+    
         
         movieTable.delegate = self
         movieTable.dataSource = self
@@ -34,6 +40,38 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
         DropDownListOptions()
         
     }
+    
+     
+    func getData(){
+        guard let appDelagate = UIApplication.shared.delegate as? AppDelegate else {return}
+        let context = appDelagate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "MoviesData")
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        do {
+           let results = try context.fetch(fetchRequest)
+            for result in results as! [NSManagedObject] {
+                if let name = result.value(forKey: "name") as? String {
+                    self.nameArray.append(name)
+                }
+                
+                if let id = result.value(forKey: "id") as? UUID {
+                    self.idArray.append(id)
+                }
+            }
+        } catch {
+            
+        }
+        
+    }
+    
+    
+    @objc func addItem(){
+        performSegue(withIdentifier: "toFavoriteCV" , sender: nil)
+    }
+    
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return moviesData.count
@@ -88,6 +126,8 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
         }
     }
     
+  
+    
 }
 
 
@@ -114,7 +154,6 @@ extension MovieListVC: UITableViewDataSourcePrefetching{
         }
     }
 }
-
 
 
 

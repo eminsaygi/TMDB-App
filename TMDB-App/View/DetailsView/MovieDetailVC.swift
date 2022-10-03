@@ -7,10 +7,12 @@
 
 import UIKit
 import Kingfisher
+import CoreData
 
 class MovieDetailVC: UIViewController {
     
     var selectedId = 0
+
     
     
     @IBOutlet weak var voteAverageLabel: UILabel!
@@ -36,13 +38,12 @@ class MovieDetailVC: UIViewController {
                     self.titleLabel.text = success.title
                     self.releaseLabel.text = success.releaseDate
                     self.overViewTextFiled.text = success.overview
-                    
                     let voteAveragaText = Utils.convertDouble(success.voteAverage, maxDecimals: 1)
-                    print("SuccesA", voteAveragaText)
                     self.voteAverageLabel.text = "\(voteAveragaText)/10"
                     
                     let url = URL(string: "\(API().imageURL)\(success.posterPath ?? "")")
                     self.imageView.kf.setImage(with: url)
+
                 }
             case.failure(let error):
                 print("Catch",error)
@@ -51,7 +52,29 @@ class MovieDetailVC: UIViewController {
     }
     
     
-    
+    @IBAction func favouritesClickedButton(_ sender: Any) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let saveData = NSEntityDescription.insertNewObject(forEntityName: "MoviesData", into: context)
+        
+        saveData.setValue(titleLabel.text, forKey: "title")
+        saveData.setValue(releaseLabel.text, forKey: "releaseDate")
+        let imagePress = imageView.image?.jpegData(compressionQuality: 0.5)
+        saveData.setValue(imagePress, forKey: "image")
+        saveData.setValue(UUID(), forKey: "id")
+        
+        
+        do {
+            try context.save()
+            print("succesK")
+            
+        } catch {
+            print("errorK")
+        }
+        
+        NotificationCenter.default.post(name: Notification.Name.init(rawValue: "newData"), object: nil)
+        self.navigationController?.popViewController(animated: true)
+    }
     
     
 }
