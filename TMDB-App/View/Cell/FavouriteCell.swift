@@ -17,6 +17,8 @@ class FavouriteCell: UITableViewCell {
     @IBOutlet weak var voteAverageLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
+        movieImageView.layer.cornerRadius = 7.0
+        movieImageView.backgroundColor = .darkGray
         // Initialization code
     }
 
@@ -25,5 +27,7 @@ class FavouriteCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    
 
 }

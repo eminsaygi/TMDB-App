@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TableViewCell: UITableViewCell {
+class MovieListTableViewCell: UITableViewCell {
     
     
     @IBOutlet weak var movieImage: UIImageView!

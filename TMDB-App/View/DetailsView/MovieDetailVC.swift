@@ -11,10 +11,10 @@ import CoreData
 
 class MovieDetailVC: UIViewController {
     
-    var selectedId = 0
+     var selectedId = 0
 
-    
-    
+    private var urlString = ""
+
     @IBOutlet weak var voteAverageLabel: UILabel!
     @IBOutlet weak var overViewTextFiled: UITextView!
     @IBOutlet weak var releaseLabel: UILabel!
@@ -27,6 +27,7 @@ class MovieDetailVC: UIViewController {
         overViewTextFiled.text = ""
         
         getDetailData()
+
     }
     
     
@@ -40,9 +41,11 @@ class MovieDetailVC: UIViewController {
                     self.overViewTextFiled.text = success.overview
                     let voteAveragaText = Utils.convertDouble(success.voteAverage, maxDecimals: 1)
                     self.voteAverageLabel.text = "\(voteAveragaText)/10"
-                    
-                    let url = URL(string: "\(API().imageURL)\(success.posterPath ?? "")")
+
+                    self.urlString = "\(API().imageURL)\(success.posterPath ?? "")"
+                    let url = URL(string: self.urlString)
                     self.imageView.kf.setImage(with: url)
+
 
                 }
             case.failure(let error):
@@ -52,6 +55,13 @@ class MovieDetailVC: UIViewController {
     }
     
     
+
+    
+    
+}
+
+// MARK: - Core Data Save Section
+extension MovieDetailVC {
     @IBAction func favouritesClickedButton(_ sender: Any) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
@@ -59,11 +69,11 @@ class MovieDetailVC: UIViewController {
         
         saveData.setValue(titleLabel.text, forKey: "title")
         saveData.setValue(releaseLabel.text, forKey: "releaseDate")
-        let imagePress = imageView.image?.jpegData(compressionQuality: 0.5)
-        saveData.setValue(imagePress, forKey: "image")
+        saveData.setValue(voteAverageLabel.text, forKey: "voteCount")
+     
+        saveData.setValue(urlString, forKey: "image")
         saveData.setValue(UUID(), forKey: "id")
-        
-        
+        saveData.setValue(selectedId, forKey: "movieId")
         do {
             try context.save()
             print("succesK")
@@ -73,15 +83,5 @@ class MovieDetailVC: UIViewController {
         }
         
         NotificationCenter.default.post(name: Notification.Name.init(rawValue: "newData"), object: nil)
-        self.navigationController?.popViewController(animated: true)
     }
-    
-    
 }
-
-
-
-
-
-
-

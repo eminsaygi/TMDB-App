@@ -10,17 +10,12 @@ import DropDown
 import CoreData
 
 class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchResultsUpdating {
-    var nameArray = [String]()
-    var idArray = [UUID]()
+   private var moviesData: [Movie] = [Movie]()
+   private let dropDown = DropDown()
     
-    
-    
-    var moviesData: [Movie] = [Movie]()
-    let dropDown = DropDown()
-    
-    var currentPage: Int = 1
-    var selectedId = 0
-    let categoryMovies = ["Top Rated","Most Popular","Latest"]
+    private var currentPage: Int = 1
+    private var selectedId = 0
+    private let categoryMovies = ["Top Rated","Most Popular","Latest"]
     
     
     @IBOutlet weak var movieTable: UITableView!
@@ -28,69 +23,47 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     @IBOutlet weak var lblTitle: UILabel!
     
     
+
+
+    
     override func viewDidLoad()  {
         super.viewDidLoad()
     
+       
+
+     
         
         movieTable.delegate = self
         movieTable.dataSource = self
         
+
         searchController()
+        refreshControl()
+
         getMovieData(type: TypeMovie.voteCount)
         DropDownListOptions()
-        
-    }
-    
-     
-    func getData(){
-        guard let appDelagate = UIApplication.shared.delegate as? AppDelegate else {return}
-        let context = appDelagate.persistentContainer.viewContext
-        
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "MoviesData")
-        fetchRequest.returnsObjectsAsFaults = false
-        
-        do {
-           let results = try context.fetch(fetchRequest)
-            for result in results as! [NSManagedObject] {
-                if let name = result.value(forKey: "name") as? String {
-                    self.nameArray.append(name)
-                }
-                
-                if let id = result.value(forKey: "id") as? UUID {
-                    self.idArray.append(id)
-                }
-            }
-        } catch {
-            
-        }
-        
-    }
-    
-    
-    @objc func addItem(){
-        performSegue(withIdentifier: "toFavoriteCV" , sender: nil)
+
     }
     
 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return moviesData.count
-        
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : TableViewCell = movieTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
+        let cell : MovieListTableViewCell = movieTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MovieListTableViewCell
         cell.movieDataFetch(movie: (moviesData[indexPath.row]))
         return cell
     }
-    
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        //*
         selectedId = moviesData[indexPath.row].id ?? 0
-        performSegue(withIdentifier: "toDetailVC", sender: nil)
-        
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "toDetailVC", sender: nil)
+
+        }
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toDetailVC"  {
             let detailVC = segue.destination as? MovieDetailVC
@@ -102,10 +75,7 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     }
     
     
-    @IBAction func showCategoryOptions(_ sender: Any) {
-        dropDown.show()
-        currentPage = 1
-    }
+ 
     
     func getMovieData(type: String) {
         WebServices.shared.getMovie(page: currentPage, type: type) {  result in
@@ -125,14 +95,11 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
             }
         }
     }
-    
-  
-    
 }
 
 
 
-// İnfinite scroll
+//MARK: - İnfinite scroll
 extension MovieListVC: UITableViewDataSourcePrefetching{
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         for index in indexPaths {
@@ -156,6 +123,103 @@ extension MovieListVC: UITableViewDataSourcePrefetching{
 }
 
 
+//MARK: - DropDown List Section
+extension MovieListVC {
+    
+    
+    func DropDownListOptions() {
+        
+        lblTitle.text = "Top Rated"
+        
+        dropDown.anchorView = viewDropDown
+        dropDown.dataSource = categoryMovies
+        
+        dropDown.bottomOffset = CGPoint(x: 0, y:(dropDown.anchorView?.plainView.bounds.height)!)
+        dropDown.direction = .bottom
+        // * Unowned vs weak
+        dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+            switch item {
+            case "Top Rated":
+                getMovieData(type: TypeMovie.voteCount)
+            case "Most Popular":
+                getMovieData(type: TypeMovie.popularity)
+            case "Latest":
+                getMovieData(type: TypeMovie.upComing)
+            default:
+                getMovieData(type: TypeMovie.voteCount)
 
+            }
+          self.lblTitle.text = categoryMovies[index]
 
+        }
+        dropDown.willShowAction = { [unowned self] in
+            moviesData.removeAll()
 
+        }
+        
+    }
+    @IBAction func showCategoryOptions(_ sender: Any) {
+        dropDown.show()
+        currentPage = 1
+    }
+}
+
+//MARK: - Search Controller Section
+
+extension MovieListVC{
+    
+    func searchController(){
+        let search = UISearchController(searchResultsController: nil)
+        search.searchResultsUpdater = self
+        search.obscuresBackgroundDuringPresentation = false
+        search.searchBar.placeholder = "Type something here to search movies"
+        navigationItem.searchController = search
+        
+       
+    }
+    
+   
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else { return }
+        if text.count > 1 {
+            
+            WebServices.shared.getSearchMovies(query: text) { [weak self] result in
+                
+                switch result {
+                case .success(let success):
+                    DispatchQueue.main.async {
+                        
+                        self!.moviesData = success
+                        self!.movieTable.reloadData()
+                        
+                    }
+                    
+                case.failure(let error):
+                    print("Catch: ", error)
+                }
+            }
+        }
+    }
+   
+}
+
+//MARK: - Refresh Control Section
+
+extension MovieListVC{
+    
+    func refreshControl(){
+        movieTable.refreshControl = UIRefreshControl()
+        movieTable.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
+    }
+    
+    
+    @objc private func didPullToRefresh(){
+        moviesData.removeAll()
+        currentPage = 1
+        getMovieData(type: TypeMovie.voteCount)
+        lblTitle.text = "Top Rated"
+        movieTable.refreshControl?.endRefreshing()
+    }
+    
+}
