@@ -31,15 +31,11 @@ class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Title"
-
-        
         favouritesTable.delegate = self
         favouritesTable.dataSource = self
         
         getData()
         
-        print("CATCHK ", voteAverageArray.count)
         
     }
     
