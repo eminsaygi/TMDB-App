@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3C4CA04828D3752A00CC631E /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4CA04728D3752A00CC631E /* Movie.swift */; };
-		3C6845C028E5703900CA7D98 /* Refresh+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6845BF28E5703900CA7D98 /* Refresh+Search.swift */; };
 		3C9B82A028E9E62D000B9D27 /* ModelData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C9B829E28E9E62D000B9D27 /* ModelData.xcdatamodeld */; };
 		3CDA4DF928D30D2400DF82C3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDA4DF828D30D2400DF82C3 /* AppDelegate.swift */; };
 		3CDA4DFB28D30D2400DF82C3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDA4DFA28D30D2400DF82C3 /* SceneDelegate.swift */; };
@@ -29,7 +28,6 @@
 /* Begin PBXFileReference section */
 		1731B6324F69785383D25679 /* Pods-TMDB-App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TMDB-App.debug.xcconfig"; path = "Target Support Files/Pods-TMDB-App/Pods-TMDB-App.debug.xcconfig"; sourceTree = "<group>"; };
 		3C4CA04728D3752A00CC631E /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
-		3C6845BF28E5703900CA7D98 /* Refresh+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Refresh+Search.swift"; sourceTree = "<group>"; };
 		3C9B829F28E9E62D000B9D27 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		3CDA4DF528D30D2400DF82C3 /* TMDB-App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TMDB-App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CDA4DF828D30D2400DF82C3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -62,22 +60,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3C6845BE28E5701200CA7D98 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				3CD04FF228E77049000907C9 /* MovieListVcExtension */,
-			);
-			path = Extension;
-			sourceTree = "<group>";
-		};
-		3CD04FF228E77049000907C9 /* MovieListVcExtension */ = {
-			isa = PBXGroup;
-			children = (
-				3C6845BF28E5703900CA7D98 /* Refresh+Search.swift */,
-			);
-			path = MovieListVcExtension;
-			sourceTree = "<group>";
-		};
 		3CDA4DEC28D30D2400DF82C3 = {
 			isa = PBXGroup;
 			children = (
@@ -99,7 +81,6 @@
 		3CDA4DF728D30D2400DF82C3 /* TMDB-App */ = {
 			isa = PBXGroup;
 			children = (
-				3C6845BE28E5701200CA7D98 /* Extension */,
 				3CDEBE1028D3175A00EEFCF0 /* View */,
 				3CDEBE0628D3126700EEFCF0 /* Utils */,
 				3CDEBE0528D3125600EEFCF0 /* StoryBoard */,
@@ -336,7 +317,6 @@
 				3CFA003D28E8DADB00BED0F2 /* FavouritesVC.swift in Sources */,
 				3C9B82A028E9E62D000B9D27 /* ModelData.xcdatamodeld in Sources */,
 				3C4CA04828D3752A00CC631E /* Movie.swift in Sources */,
-				3C6845C028E5703900CA7D98 /* Refresh+Search.swift in Sources */,
 				3CDEBE2328D324D700EEFCF0 /* Utils.swift in Sources */,
 				3CDEBE0D28D3151C00EEFCF0 /* WebServices.swift in Sources */,
 				3CDA4DF928D30D2400DF82C3 /* AppDelegate.swift in Sources */,

@@ -31,6 +31,8 @@ class WebServices {
             }
             catch {
                 completion(.failure(error))
+                print("Catch: WebServices.swift : 34. line")
+
             }
         }
         task.resume()
@@ -49,6 +51,8 @@ class WebServices {
             catch {
                 
                 completion(.failure(error))
+                print("Catch: WebServices.swift : 53. line")
+
             }
         }
         task.resume()
@@ -66,6 +70,8 @@ class WebServices {
             }
             catch {
                 completion(.failure(error))
+                print("Catch: WebServices.swift : 71. line")
+
             }
         }
         task.resume()

@@ -281,8 +281,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="h8i-Yv-Ntr">
-                                <rect key="frame" x="0.0" y="0.0" width="390" height="362"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="h8i-Yv-Ntr">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="357"/>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="veU-PO-vGJ">
                                 <rect key="frame" x="16" y="495" width="358" height="266"/>
@@ -305,19 +305,19 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imdb" translatesAutoresizingMaskIntoConstraints="NO" id="jE8-XE-Btu" customClass="AnimatedImageView" customModule="Kingfisher">
-                                <rect key="frame" x="16" y="382" width="50" height="24"/>
+                                <rect key="frame" x="16" y="377" width="50" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="ZYl-J3-gKg"/>
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rate" translatesAutoresizingMaskIntoConstraints="NO" id="Pst-QO-bCO">
-                                <rect key="frame" x="74" y="386" width="16" height="16"/>
+                                <rect key="frame" x="74" y="381" width="16" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="16" id="cY6-Gf-IOc"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7.8/10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="muI-Sf-czu">
-                                <rect key="frame" x="98" y="386" width="58" height="16"/>
+                                <rect key="frame" x="98" y="381" width="58" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="58" id="pKz-RZ-JVF"/>
                                 </constraints>
@@ -326,7 +326,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sfh-V3-Fng">
-                                <rect key="frame" x="321" y="375" width="53" height="35"/>
+                                <rect key="frame" x="321" y="370" width="53" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="53" id="ogZ-l6-ywY"/>
                                 </constraints>
@@ -336,7 +336,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" showsExpansionTextWhenTruncated="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GvA-1z-Gpu">
-                                <rect key="frame" x="175" y="380" width="138" height="28"/>
+                                <rect key="frame" x="175" y="375" width="138" height="33"/>
                                 <fontDescription key="fontDescription" type="italicSystem" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -454,7 +454,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="sWM-j6-YPF"/>
+        <segue reference="G3h-j6-JlZ"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow" width="12" height="12"/>

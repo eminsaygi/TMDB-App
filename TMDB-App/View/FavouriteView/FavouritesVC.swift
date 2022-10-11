@@ -11,16 +11,16 @@ import Kingfisher
 
 class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var titleArray = [String]()
-    var movieIdArray = [Int]()
-    var relaseDateArray = [String]()
-    var movieImageData = [String]()
-    var voteAverageArray = [String]()
-    var idArray = [UUID]()
+   private var titleArray = [String]()
+   private var movieIdArray = [Int]()
+   private var relaseDateArray = [String]()
+   private var movieImageData = [String]()
+   private var voteAverageArray = [String]()
+   private var idArray = [UUID]()
     
-    var selectedId = 0
+   private var selectedId = 0
     
-    var moviesData: [Movie] = [Movie]()
+   private var moviesData: [Movie] = [Movie]()
     
     
     
@@ -78,7 +78,7 @@ class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     
     
-    @objc func getData(){
+     @objc private func getData(){
         self.titleArray.removeAll(keepingCapacity: true)
         self.idArray.removeAll(keepingCapacity: true)
         self.movieIdArray.removeAll(keepingCapacity: true)
@@ -127,7 +127,8 @@ class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 self.favouritesTable.reloadData()
             }
         } catch {
-            
+            print("Catch: FavouritesVC.swift : 130. line")
+
         }
     }
     
@@ -159,12 +160,13 @@ class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                     do  {
                         try context.save()
                     } catch {
-                        
+                        print("Catch: FavouritesVC.swift : 162. line")
                     }
                 }
             }
         } catch {
-            
+            print("Catch: FavouritesVC.swift : 167. line")
+
         }
     }
     

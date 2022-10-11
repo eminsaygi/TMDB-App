@@ -90,8 +90,8 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
                     
                 }
                 
-            case.failure(let error):
-                print("Catch: ",error)
+            case.failure(_):
+                print("Catch: MovieListVC.swift : 94. line")
             }
         }
     }
@@ -127,7 +127,7 @@ extension MovieListVC: UITableViewDataSourcePrefetching{
 extension MovieListVC {
     
     
-    func DropDownListOptions() {
+    private func DropDownListOptions() {
         
         lblTitle.text = "Top Rated"
         
@@ -168,7 +168,7 @@ extension MovieListVC {
 
 extension MovieListVC{
     
-    func searchController(){
+    private func searchController(){
         let search = UISearchController(searchResultsController: nil)
         search.searchResultsUpdater = self
         search.obscuresBackgroundDuringPresentation = false
@@ -195,8 +195,8 @@ extension MovieListVC{
                         
                     }
                     
-                case.failure(let error):
-                    print("Catch: ", error)
+                case.failure(_):
+                    print("Catch: MovieListVC.swift : 199. line")
                 }
             }
         }

@@ -48,8 +48,9 @@ class MovieDetailVC: UIViewController {
 
 
                 }
-            case.failure(let error):
-                print("Catch",error)
+            case.failure(_):
+                print("Catch: MovieDetailVC.swift : 52. line")
+
             }
         }
     }
@@ -76,10 +77,10 @@ extension MovieDetailVC {
         saveData.setValue(selectedId, forKey: "movieId")
         do {
             try context.save()
-            print("succesK")
             
         } catch {
-            print("errorK")
+            print("Catch: MovieDetailVC.swift : 83. line")
+
         }
         
         NotificationCenter.default.post(name: Notification.Name.init(rawValue: "newData"), object: nil)
