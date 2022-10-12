@@ -11,58 +11,66 @@ import CoreData
 
 class MovieDetailVC: UIViewController {
     
-     var selectedId = 0
-
+    var selectedId = 0
+    
     private var urlString = ""
-
+    
     @IBOutlet weak var voteAverageLabel: UILabel!
-    @IBOutlet weak var overViewTextFiled: UITextView!
+  //@IBOutlet weak var overViewTextFiled: UITextView!
+    
+    @IBOutlet weak var overViewLabel: UILabel!
     @IBOutlet weak var releaseLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     
     override func viewDidLoad(){
         super.viewDidLoad()
-        imageView.backgroundColor = .darkGray
-        overViewTextFiled.text = ""
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        imageView.backgroundColor = .darkGray
+        overViewLabel.text = ""
         getDetailData()
-
     }
     
     
     func getDetailData(){
         WebServices.shared.getMovieDetail(id: selectedId){ result in
+            
+            
             switch result {
             case .success(let success):
                 DispatchQueue.main.async {
                     self.titleLabel.text = success.title
                     self.releaseLabel.text = success.releaseDate
-                    self.overViewTextFiled.text = success.overview
+                    self.overViewLabel.text = success.overview
                     let voteAveragaText = Utils.convertDouble(success.voteAverage, maxDecimals: 1)
                     self.voteAverageLabel.text = "\(voteAveragaText)/10"
-
+                    
                     self.urlString = "\(API().imageURL)\(success.posterPath ?? "")"
                     let url = URL(string: self.urlString)
                     self.imageView.kf.setImage(with: url)
-
-
+                    
+                    
                 }
             case.failure(_):
                 print("Catch: MovieDetailVC.swift : 52. line")
-
+                
             }
         }
     }
     
-    
-
-    
+   
     
 }
 
 // MARK: - Core Data Save Section
 extension MovieDetailVC {
+    
+    
+    
+    
     @IBAction func favouritesClickedButton(_ sender: Any) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
@@ -71,7 +79,7 @@ extension MovieDetailVC {
         saveData.setValue(titleLabel.text, forKey: "title")
         saveData.setValue(releaseLabel.text, forKey: "releaseDate")
         saveData.setValue(voteAverageLabel.text, forKey: "voteCount")
-     
+        
         saveData.setValue(urlString, forKey: "image")
         saveData.setValue(UUID(), forKey: "id")
         saveData.setValue(selectedId, forKey: "movieId")
@@ -80,7 +88,7 @@ extension MovieDetailVC {
             
         } catch {
             print("Catch: MovieDetailVC.swift : 83. line")
-
+            
         }
         
         NotificationCenter.default.post(name: Notification.Name.init(rawValue: "newData"), object: nil)

@@ -40,8 +40,12 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
         searchController()
         refreshControl()
 
-        getMovieData(type: TypeMovie.voteCount)
         DropDownListOptions()
+
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        getMovieData(type: TypeMovie.voteCount)
 
     }
     
