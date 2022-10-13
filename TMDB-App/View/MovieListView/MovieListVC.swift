@@ -1,21 +1,13 @@
-//
-//  ViewController.swift
-//  TMDB-App
-//
-//  Created by Emin Saygı on 15.09.2022.
-//
-
 import UIKit
 import DropDown
 import CoreData
 
 class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchResultsUpdating {
-   private var moviesData: [Movie] = [Movie]()
-   private let dropDown = DropDown()
-    
+    private var moviesData: [Movie] = [Movie]()
+    private let dropDown = DropDown()
+    private let typeMovie = TypeMovie()
     private var currentPage: Int = 1
     private var selectedId = 0
-    private let categoryMovies = ["Top Rated","Most Popular","Latest"]
     
     
     @IBOutlet weak var movieTable: UITableView!
@@ -23,48 +15,45 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     @IBOutlet weak var lblTitle: UILabel!
     
     
-
-
-    
     override func viewDidLoad()  {
         super.viewDidLoad()
-    
-       
-
-     
         
         movieTable.delegate = self
         movieTable.dataSource = self
         
-
+        
         searchController()
         refreshControl()
-
+        
         DropDownListOptions()
-
+        
     }
     
+    
+    // View ekranı oluştuktan hemen sonra çağrılır.
     override func viewDidAppear(_ animated: Bool) {
-        getMovieData(type: TypeMovie.voteCount)
-
+        getMovieData(type: typeMovie.voteCount)
+        
     }
     
-
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return moviesData.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : MovieListTableViewCell = movieTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MovieListTableViewCell
+        
+        
         cell.movieDataFetch(movie: (moviesData[indexPath.row]))
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //*
+        
         selectedId = moviesData[indexPath.row].id ?? 0
+        
         DispatchQueue.main.async {
             self.performSegue(withIdentifier: "toDetailVC", sender: nil)
-
+            
         }
     }
     
@@ -79,7 +68,11 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     }
     
     
- 
+    
+}
+
+//MARK: - Film verilerini çekme işlemi
+extension MovieListVC {
     
     func getMovieData(type: String) {
         WebServices.shared.getMovie(page: currentPage, type: type) {  result in
@@ -95,7 +88,7 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
                 }
                 
             case.failure(_):
-                print("Catch: MovieListVC.swift : 94. line")
+                print("Catch: MovieListVC.swift : getMovieData")
             }
         }
     }
@@ -103,7 +96,7 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
 
 
 
-//MARK: - İnfinite scroll
+//MARK: - TableView sonsuz scrool işlemi
 extension MovieListVC: UITableViewDataSourcePrefetching{
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         for index in indexPaths {
@@ -113,13 +106,13 @@ extension MovieListVC: UITableViewDataSourcePrefetching{
                 let categoryControl = self.lblTitle.text
                 switch categoryControl {
                 case "Top Rated":
-                    getMovieData(type: TypeMovie.voteCount)
+                    getMovieData(type: typeMovie.voteCount)
                 case "Most Popular":
-                    getMovieData(type: TypeMovie.popularity)
+                    getMovieData(type: typeMovie.popularity)
                 case "Latest":
-                    getMovieData(type: TypeMovie.upComing)
+                    getMovieData(type: typeMovie.upComing)
                 default:
-                    getMovieData(type: TypeMovie.voteCount)
+                    getMovieData(type: typeMovie.voteCount)
                 }
             }
         }
@@ -127,11 +120,12 @@ extension MovieListVC: UITableViewDataSourcePrefetching{
 }
 
 
-//MARK: - DropDown List Section
+//MARK: - Açılır kategori işlemleri
 extension MovieListVC {
     
     
     private func DropDownListOptions() {
+        let categoryMovies = ["Top Rated","Most Popular","Latest"]
         
         lblTitle.text = "Top Rated"
         
@@ -144,21 +138,21 @@ extension MovieListVC {
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             switch item {
             case "Top Rated":
-                getMovieData(type: TypeMovie.voteCount)
+                getMovieData(type: typeMovie.voteCount)
             case "Most Popular":
-                getMovieData(type: TypeMovie.popularity)
+                getMovieData(type: typeMovie.popularity)
             case "Latest":
-                getMovieData(type: TypeMovie.upComing)
+                getMovieData(type: typeMovie.upComing)
             default:
-                getMovieData(type: TypeMovie.voteCount)
-
+                getMovieData(type: typeMovie.voteCount)
+                
             }
-          self.lblTitle.text = categoryMovies[index]
-
+            self.lblTitle.text = categoryMovies[index]
+            
         }
         dropDown.willShowAction = { [unowned self] in
             moviesData.removeAll()
-
+            
         }
         
     }
@@ -168,7 +162,7 @@ extension MovieListVC {
     }
 }
 
-//MARK: - Search Controller Section
+//MARK: - Arama işlemleri
 
 extension MovieListVC{
     
@@ -179,10 +173,10 @@ extension MovieListVC{
         search.searchBar.placeholder = "Type something here to search movies"
         navigationItem.searchController = search
         
-       
+        
     }
     
-   
+    
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
@@ -200,12 +194,12 @@ extension MovieListVC{
                     }
                     
                 case.failure(_):
-                    print("Catch: MovieListVC.swift : 199. line")
+                    print("Catch: MovieListVC.swift : updateSearchResults")
                 }
             }
         }
     }
-   
+    
 }
 
 //MARK: - Refresh Control Section
@@ -221,7 +215,7 @@ extension MovieListVC{
     @objc private func didPullToRefresh(){
         moviesData.removeAll()
         currentPage = 1
-        getMovieData(type: TypeMovie.voteCount)
+        getMovieData(type: typeMovie.voteCount)
         lblTitle.text = "Top Rated"
         movieTable.refreshControl?.endRefreshing()
     }

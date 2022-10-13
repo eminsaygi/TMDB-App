@@ -346,7 +346,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="8VU-J3-oVj">
                                         <rect key="frame" x="0.0" y="0.0" width="390" height="511"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="m8K-zh-pbh">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="m8K-zh-pbh">
                                                 <rect key="frame" x="0.0" y="0.0" width="390" height="400"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="400" id="6S1-s9-R0X"/>
@@ -364,34 +364,23 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oPG-lh-hfI">
                                                         <rect key="frame" x="16" y="26.666666666666629" width="358" height="49"/>
                                                         <subviews>
-                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="imdb" translatesAutoresizingMaskIntoConstraints="NO" id="Afr-j4-USS" customClass="AnimatedImageView" customModule="Kingfisher">
-                                                                <rect key="frame" x="0.0" y="13" width="49" height="24"/>
-                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imdb" translatesAutoresizingMaskIntoConstraints="NO" id="Afr-j4-USS" customClass="AnimatedImageView" customModule="Kingfisher">
+                                                                <rect key="frame" x="0.0" y="12.666666666666742" width="49" height="24"/>
                                                             </imageView>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uRi-sp-MTQ">
-                                                                <rect key="frame" x="293" y="8" width="53" height="33"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" constant="53" id="2n0-PQ-W6W"/>
-                                                                </constraints>
-                                                                <buttonConfiguration key="configuration" style="filled" image="book" catalog="system"/>
-                                                                <connections>
-                                                                    <action selector="favouritesClickedButton:" destination="nEE-xS-fHv" eventType="touchUpInside" id="Hr8-gF-2ZT"/>
-                                                                </connections>
-                                                            </button>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2012-04-25" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" showsExpansionTextWhenTruncated="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ps-8m-nCU">
-                                                                <rect key="frame" x="156" y="8" width="129" height="33"/>
+                                                                <rect key="frame" x="156" y="13.666666666666744" width="99" height="21.666666666666671"/>
                                                                 <fontDescription key="fontDescription" type="italicSystem" pointSize="18"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rate" translatesAutoresizingMaskIntoConstraints="NO" id="U9B-2g-kN2">
-                                                                <rect key="frame" x="76" y="16" width="16" height="17"/>
+                                                                <rect key="frame" x="57" y="16" width="16" height="17"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="16" id="BSf-Pg-Z8y"/>
                                                                 </constraints>
                                                             </imageView>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="7.8/10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6pA-Zq-oEe">
-                                                                <rect key="frame" x="81" y="14" width="58" height="21"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7.8/10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6pA-Zq-oEe">
+                                                                <rect key="frame" x="76" y="14" width="58" height="21"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="58" id="OJk-KT-9AQ"/>
                                                                     <constraint firstAttribute="height" constant="21" id="PZo-jT-VL5"/>
@@ -400,21 +389,28 @@
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uRi-sp-MTQ">
+                                                                <rect key="frame" x="293" y="8" width="53" height="33"/>
+                                                                <buttonConfiguration key="configuration" style="filled" image="book" catalog="system"/>
+                                                                <connections>
+                                                                    <action selector="saveFavouriteButton:" destination="nEE-xS-fHv" eventType="touchUpInside" id="0Ra-ha-Esu"/>
+                                                                </connections>
+                                                            </button>
                                                         </subviews>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <constraints>
+                                                            <constraint firstItem="uRi-sp-MTQ" firstAttribute="centerY" secondItem="oPG-lh-hfI" secondAttribute="centerY" id="6pm-bR-arR"/>
                                                             <constraint firstItem="U9B-2g-kN2" firstAttribute="top" secondItem="oPG-lh-hfI" secondAttribute="top" constant="16" id="BHB-d6-Wf0"/>
-                                                            <constraint firstAttribute="trailing" secondItem="uRi-sp-MTQ" secondAttribute="trailing" constant="12" id="HTf-yZ-1fe"/>
                                                             <constraint firstItem="6pA-Zq-oEe" firstAttribute="centerY" secondItem="U9B-2g-kN2" secondAttribute="centerY" id="HeR-r4-sAi"/>
-                                                            <constraint firstItem="uRi-sp-MTQ" firstAttribute="leading" secondItem="5Ps-8m-nCU" secondAttribute="trailing" constant="8" id="Loe-Qj-fvW"/>
-                                                            <constraint firstItem="uRi-sp-MTQ" firstAttribute="centerY" secondItem="U9B-2g-kN2" secondAttribute="centerY" id="LzN-Uz-AN6"/>
-                                                            <constraint firstItem="uRi-sp-MTQ" firstAttribute="top" secondItem="oPG-lh-hfI" secondAttribute="topMargin" id="RaU-Je-kIN"/>
-                                                            <constraint firstItem="uRi-sp-MTQ" firstAttribute="centerY" secondItem="oPG-lh-hfI" secondAttribute="centerY" id="S1O-8q-XXE"/>
-                                                            <constraint firstItem="6pA-Zq-oEe" firstAttribute="leading" secondItem="oPG-lh-hfI" secondAttribute="leading" constant="93" id="j17-Vs-1Fb"/>
-                                                            <constraint firstItem="6pA-Zq-oEe" firstAttribute="leading" secondItem="U9B-2g-kN2" secondAttribute="trailing" constant="1" id="kgs-hE-JYD"/>
-                                                            <constraint firstItem="5Ps-8m-nCU" firstAttribute="leading" secondItem="6pA-Zq-oEe" secondAttribute="trailing" constant="5" id="l1K-7p-T6b"/>
+                                                            <constraint firstItem="U9B-2g-kN2" firstAttribute="leading" secondItem="Afr-j4-USS" secondAttribute="trailing" constant="8" id="Rsu-5I-tbF"/>
+                                                            <constraint firstItem="uRi-sp-MTQ" firstAttribute="leading" secondItem="5Ps-8m-nCU" secondAttribute="trailing" constant="38" id="UKz-q3-c32"/>
+                                                            <constraint firstItem="uRi-sp-MTQ" firstAttribute="centerY" secondItem="5Ps-8m-nCU" secondAttribute="centerY" id="Xou-45-evE"/>
+                                                            <constraint firstItem="U9B-2g-kN2" firstAttribute="centerY" secondItem="Afr-j4-USS" secondAttribute="centerY" id="aC0-gu-Wyv"/>
+                                                            <constraint firstItem="6pA-Zq-oEe" firstAttribute="leading" secondItem="U9B-2g-kN2" secondAttribute="trailing" constant="3" id="hWa-5i-omi"/>
+                                                            <constraint firstItem="6pA-Zq-oEe" firstAttribute="leading" secondItem="oPG-lh-hfI" secondAttribute="leading" constant="76" id="j17-Vs-1Fb"/>
+                                                            <constraint firstItem="5Ps-8m-nCU" firstAttribute="leading" secondItem="6pA-Zq-oEe" secondAttribute="trailing" constant="22" id="l1K-7p-T6b"/>
+                                                            <constraint firstItem="uRi-sp-MTQ" firstAttribute="top" secondItem="oPG-lh-hfI" secondAttribute="topMargin" id="pQr-MO-ucR"/>
                                                             <constraint firstItem="6pA-Zq-oEe" firstAttribute="centerY" secondItem="5Ps-8m-nCU" secondAttribute="centerY" id="rCP-PZ-LWY"/>
-                                                            <constraint firstItem="uRi-sp-MTQ" firstAttribute="top" secondItem="5Ps-8m-nCU" secondAttribute="top" id="reY-4T-5Tu"/>
                                                             <constraint firstItem="6pA-Zq-oEe" firstAttribute="top" secondItem="oPG-lh-hfI" secondAttribute="top" constant="14" id="txG-dc-f63"/>
                                                         </constraints>
                                                     </view>
@@ -453,7 +449,7 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="3K1-rE-ykJ"/>
-                    <navigationItem key="navigationItem" id="GU2-C1-5XG"/>
+                    <navigationItem key="navigationItem" title="Details" id="GU2-C1-5XG"/>
                     <connections>
                         <outlet property="imageView" destination="m8K-zh-pbh" id="rgQ-08-XYu"/>
                         <outlet property="overViewLabel" destination="4gl-eN-q41" id="IBY-1Z-P65"/>
@@ -464,7 +460,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eiu-In-UZU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4378" y="277"/>
+            <point key="canvasLocation" x="4376.9230769230771" y="276.54028436018956"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

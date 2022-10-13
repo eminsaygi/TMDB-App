@@ -1,10 +1,3 @@
-//
-//  Utils.swift
-//  TMDB-App
-//
-//  Created by Emin Saygı on 15.09.2022.
-//
-
 import Foundation
 import UIKit
 
@@ -12,7 +5,7 @@ final class Utils {
     
     
     
-    // MARK: - We set the date format
+    // MARK: - Tarih formatını düzenlediğimiz fonksiyon
     static func formattedDateFromString(dateString: String, withFormat format: String) -> String? {
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd"
@@ -27,7 +20,8 @@ final class Utils {
         return nil
     }
     
-    
+    // MARK: - Gelen Double değerlerini 0.0 şeklinde ayarlayan fonksiyon
+
     static func convertDouble(_ a: Double, maxDecimals max: Int) -> Double {
         let stringArr = String(a).split(separator: ".")
         let decimals = Array(stringArr[1])

@@ -1,24 +1,8 @@
-//
-//  Movie.swift
-//  TMDB-App
-//
-//  Created by Emin Saygı on 15.09.2022.
-//
-
 import Foundation
 
 struct Movies: Codable {
     let page: Int?
     let results: [Movie]
-    let totalPages: Int?
-    
-    enum CodingKeys: String, CodingKey {
-        case page, results
-        case totalPages = "total_pages"
-        
-    }
-    
-    
 }
 
 

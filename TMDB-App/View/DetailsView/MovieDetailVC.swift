@@ -1,10 +1,3 @@
-//
-//  DetailsViewController.swift
-//  TMDB-App
-//
-//  Created by Emin Saygı on 15.09.2022.
-//
-
 import UIKit
 import Kingfisher
 import CoreData
@@ -16,7 +9,6 @@ class MovieDetailVC: UIViewController {
     private var urlString = ""
     
     @IBOutlet weak var voteAverageLabel: UILabel!
-  //@IBOutlet weak var overViewTextFiled: UITextView!
     
     @IBOutlet weak var overViewLabel: UILabel!
     @IBOutlet weak var releaseLabel: UILabel!
@@ -27,13 +19,61 @@ class MovieDetailVC: UIViewController {
         super.viewDidLoad()
         
     }
-    
+    // UIController başlamadan hemen önce çalışır.
     override func viewWillAppear(_ animated: Bool) {
         imageView.backgroundColor = .darkGray
         overViewLabel.text = ""
+        
+    }
+    //UIController ekranı oluştuktan hemen sonra çalışır
+    override func viewDidAppear(_ animated: Bool) {
         getDetailData()
+        
+    }
+    // Core data veri kaydetme işlemini burada yapıyoruz.
+    @IBAction func saveFavouriteButton(_ sender: Any) {
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let saveData = NSEntityDescription.insertNewObject(forEntityName: "MoviesData", into: context)
+        
+        saveData.setValue(titleLabel.text, forKey: "title")
+        saveData.setValue(releaseLabel.text, forKey: "releaseDate")
+        saveData.setValue(voteAverageLabel.text, forKey: "voteCount")
+        
+        saveData.setValue(urlString, forKey: "image")
+        saveData.setValue(UUID(), forKey: "id")
+        saveData.setValue(selectedId, forKey: "movieId")
+        do {
+            try context.save()
+            savedAlert()
+            
+        } catch {
+            print("Catch: MovieDetailVC.swift : saveFavouriteButton")
+            
+        }
+        
+        // Kaydedilen bir data olduğu haberini gönderiyoruz. Bunu da newData key'i ile yapıyoruz.
+        NotificationCenter.default.post(name: Notification.Name.init(rawValue: "newData"), object: nil)
+        
     }
     
+    // Kayıt başarılı olunca alert veriyor.
+    func savedAlert() {
+        let dialogMessage = UIAlertController(title: "Succes", message: "Congratulations. Successfully Saved", preferredStyle: .alert)
+        
+        let ok = UIAlertAction(title: "OK", style: .default, handler:  nil)
+        
+        dialogMessage.addAction(ok)
+        self.present(dialogMessage, animated: true, completion: nil)
+    }
+    
+    
+}
+
+// MARK: - Detay sayfası veri çekme işlemi
+
+extension MovieDetailVC {
     
     func getDetailData(){
         WebServices.shared.getMovieDetail(id: selectedId){ result in
@@ -55,42 +95,9 @@ class MovieDetailVC: UIViewController {
                     
                 }
             case.failure(_):
-                print("Catch: MovieDetailVC.swift : 52. line")
+                print("Catch: MovieDetailVC.swift : getDetailData")
                 
             }
         }
-    }
-    
-   
-    
-}
-
-// MARK: - Core Data Save Section
-extension MovieDetailVC {
-    
-    
-    
-    
-    @IBAction func favouritesClickedButton(_ sender: Any) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let saveData = NSEntityDescription.insertNewObject(forEntityName: "MoviesData", into: context)
-        
-        saveData.setValue(titleLabel.text, forKey: "title")
-        saveData.setValue(releaseLabel.text, forKey: "releaseDate")
-        saveData.setValue(voteAverageLabel.text, forKey: "voteCount")
-        
-        saveData.setValue(urlString, forKey: "image")
-        saveData.setValue(UUID(), forKey: "id")
-        saveData.setValue(selectedId, forKey: "movieId")
-        do {
-            try context.save()
-            
-        } catch {
-            print("Catch: MovieDetailVC.swift : 83. line")
-            
-        }
-        
-        NotificationCenter.default.post(name: Notification.Name.init(rawValue: "newData"), object: nil)
     }
 }

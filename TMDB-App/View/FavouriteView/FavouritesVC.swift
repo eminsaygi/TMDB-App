@@ -1,45 +1,43 @@
-//
-//  FavouritesVC.swift
-//  TMDB-App
-//
-//  Created by Emin Saygı on 1.10.2022.
-//
-
 import UIKit
 import CoreData
 import Kingfisher
 
 class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-   private var titleArray = [String]()
-   private var movieIdArray = [Int]()
-   private var relaseDateArray = [String]()
-   private var movieImageData = [String]()
-   private var voteAverageArray = [String]()
-   private var idArray = [UUID]()
+    // Core data içerisine kaydedilecek veri dizileri
+    private var titleArray = [String]()
+    private var movieIdArray = [Int]()
+    private var relaseDateArray = [String]()
+    private var movieImageData = [String]()
+    private var voteAverageArray = [String]()
+    private var idArray = [UUID]()
     
-   private var selectedId = 0
+    private var selectedId = 0
     
-   private var moviesData: [Movie] = [Movie]()
+    private var moviesData: [Movie] = [Movie]()
     
     
     
     
     @IBOutlet weak var favouritesTable: UITableView!
     
-    
+    // 1 defa çalışır. IBOutletleri hazır hale geitirir.
     override func viewDidLoad() {
         super.viewDidLoad()
         
         favouritesTable.delegate = self
         favouritesTable.dataSource = self
         
-        getData()
+        
         
         
     }
-    
+    override func viewDidAppear(_ animated: Bool) {
+        getData()
+    }
+    //UI Ekranı başlamadan hemen önce çağrılır.
     override func viewWillAppear(_ animated: Bool) {
+        // Bir gözlemci tanımladık. Haberciden gelecek verileri işleyecek.
         NotificationCenter.default.addObserver(self, selector: #selector(getData), name: NSNotification.Name(rawValue: "newData"), object: nil)
         
     }
@@ -49,7 +47,7 @@ class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         let cell : FavouriteCell = favouritesTable.dequeueReusableCell(withIdentifier: "favouritesCell", for: indexPath) as! FavouriteCell
         
         cell.titleLabel.text = titleArray[indexPath.row]
@@ -78,7 +76,55 @@ class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     
     
-     @objc private func getData(){
+    
+}
+// MARK: - TableView'da seçilen satıları silme işlemi
+extension FavouritesVC {
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "MoviesData")
+        
+        let idString = idArray[indexPath.row].uuidString
+        fetchRequest.predicate = NSPredicate(format: "id = %@", idString)
+        
+        fetchRequest.returnsObjectsAsFaults = false // Büyük data verilerini okurken hız sağlıyor.
+        
+        do {
+            let results = try context.fetch(fetchRequest)
+            for result in results as! [NSManagedObject] {
+                if let _ = result.value(forKey: "id") as? UUID {
+                    context.delete(result)
+                    
+                    idArray.remove(at: indexPath.row)
+                    movieIdArray.remove(at: indexPath.row)
+                    titleArray.remove(at: indexPath.row)
+                    movieImageData.remove(at: indexPath.row)
+                    relaseDateArray.remove(at: indexPath.row)
+                    voteAverageArray.remove(at: indexPath.row)
+                    
+                    self.favouritesTable.reloadData()
+                    
+                    do  {
+                        try context.save()
+                    } catch {
+                        print("Catch: FavouritesVC.swift : NSManagedObject")
+                    }
+                }
+            }
+        } catch {
+            print("Catch: FavouritesVC.swift : commit editingStyle")
+            
+        }
+    }
+}
+
+//MARK: - CoreData üzerinden gelen verileri çekme
+extension FavouritesVC {
+    
+    @objc private func getData(){
+        //Aynı türden verileri kaydetmemeyi sağlıyor.
         self.titleArray.removeAll(keepingCapacity: true)
         self.idArray.removeAll(keepingCapacity: true)
         self.movieIdArray.removeAll(keepingCapacity: true)
@@ -127,49 +173,10 @@ class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 self.favouritesTable.reloadData()
             }
         } catch {
-            print("Catch: FavouritesVC.swift : 130. line")
-
+            print("Catch: FavouritesVC.swift : DataList")
+            
         }
     }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        let context = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "MoviesData")
-        
-        let idString = idArray[indexPath.row].uuidString
-        fetchRequest.predicate = NSPredicate(format: "id = %@", idString)
-        
-        fetchRequest.returnsObjectsAsFaults = false // Büyük data verilerini okurken hız sağlıyor.
-        
-        do {
-            let results = try context.fetch(fetchRequest)
-            for result in results as! [NSManagedObject] {
-                if let _ = result.value(forKey: "id") as? UUID {
-                    context.delete(result)
-                    
-                    idArray.remove(at: indexPath.row)
-                    movieIdArray.remove(at: indexPath.row)
-                    titleArray.remove(at: indexPath.row)
-                    movieImageData.remove(at: indexPath.row)
-                    relaseDateArray.remove(at: indexPath.row)
-                    voteAverageArray.remove(at: indexPath.row)
-                    
-                    self.favouritesTable.reloadData()
-                    
-                    do  {
-                        try context.save()
-                    } catch {
-                        print("Catch: FavouritesVC.swift : 162. line")
-                    }
-                }
-            }
-        } catch {
-            print("Catch: FavouritesVC.swift : 167. line")
-
-        }
-    }
-    
 }
 
 

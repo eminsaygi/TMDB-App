@@ -1,24 +1,16 @@
-//
-//  WebServices.swift
-//  TMDB-App
-//
-//  Created by Emin Saygı on 15.09.2022.
-//
-
 import Foundation
 import UIKit
 
 
-
-
 class WebServices {
     static let shared = WebServices()
-    
+    private var api = API()
     private var taskShared = URLSession.shared
     
+    //completion tamamlama bloğu içerisinde escaping clousere kullandık.
     func getMovie(page:Int, type: String, completion: @escaping(Result<[Movie], Error>)->()){
         
-        guard let url = URL(string: API().discoverURL + "\(type)" + API().apiKey+"&page=\(page)") else {return}
+        guard let url = URL(string: api.discoverURL + "\(type)" + API().apiKey+"&page=\(page)") else {return}
         
         let task = taskShared.dataTask(with: URLRequest(url: url)) { data, _, error in
             guard let data = data, error == nil else {
@@ -31,15 +23,15 @@ class WebServices {
             }
             catch {
                 completion(.failure(error))
-                print("Catch: WebServices.swift : 34. line")
-
+                print("Catch: WebServices.swift : getMovie")
+                
             }
         }
         task.resume()
     }
     
     func getMovieDetail(id: Int, completion: @escaping(Result<Movie, Error>)->()){
-        guard let url = URL(string: "\(API().baseURL)/3/movie/\(id)?\(API().apiKey)&language=en-US") else {return}
+        guard let url = URL(string: "\(api.baseURL)/3/movie/\(id)?\(API().apiKey)&language=en-US") else {return}
         let task = taskShared.dataTask(with: URLRequest(url: url)) { data, _, error in
             guard let data = data, error == nil else {
                 return
@@ -51,15 +43,15 @@ class WebServices {
             catch {
                 
                 completion(.failure(error))
-                print("Catch: WebServices.swift : 53. line")
-
+                print("Catch: WebServices.swift : getMovieDetail")
+                
             }
         }
         task.resume()
     }
     
     func getSearchMovies(query: String, completion: @escaping(Result<[Movie], Error>)->()){
-        guard let searchURL = URL(string: (API()).searchURL + (query)) else {return}
+        guard let searchURL = URL(string: api.searchURL + (query)) else {return}
         let task = taskShared.dataTask(with: URLRequest(url: searchURL)) { data, _, error in
             guard let data = data, error == nil else {
                 return
@@ -70,8 +62,8 @@ class WebServices {
             }
             catch {
                 completion(.failure(error))
-                print("Catch: WebServices.swift : 71. line")
-
+                print("Catch: WebServices.swift : getSearchMovies")
+                
             }
         }
         task.resume()

@@ -1,10 +1,3 @@
-//
-//  API.swift
-//  TMDB-App
-//
-//  Created by Emin Saygı on 15.09.2022.
-//
-
 import Foundation
 
 class API {
@@ -31,9 +24,9 @@ class API {
      let apiKey = "&api_key=464f8a5567ef6de84d256d195532ca13"
 }
 
-struct TypeMovie : Codable {
-    static let voteCount = "vote_count.desc"
-    static let popularity = "popularity.desc"
-    static let upComing = "release_date.desc"
+struct TypeMovie  {
+     let voteCount = "vote_count.desc"
+     let popularity = "popularity.desc"
+     let upComing = "release_date.desc"
     
 }
