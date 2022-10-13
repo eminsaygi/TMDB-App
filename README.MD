@@ -2,14 +2,17 @@
 
 
 - Simple discover movie application in Swift for iOS 15.5 and Xcode 14.0
-- I made this app in four different architectures: `MVVM`  `Clean Swift`
+- I made this app in four different architectures: `MVC`  `Clean Swift`
 
 ## Features
 
 - **View a list** of the given discover movie
 - **View a detail** of the given movie
 - **Search** for a movie
+- **Mark favorite movies** for quick access later
+- **View only favorite** movies
 - **RefreshData** when pull to refresh
+- **Filter** movies by type
 
 
 ## Credits
@@ -19,16 +22,14 @@
 ## Libraries used
 
 - Kingfisher
+- DrowDown
+- CoreData
 
 ## What awaits us in the next version!!
 
 - **Unit && UI** test will be used
-- **Core Data** will be used
-- **Filter** will be used
-- **Sort the movie list** will be used
-- **Save** the movie to the favorite list
 - **Alomofire** will be used
-
+- **Realm** will be used
 
 ## Preview
 
