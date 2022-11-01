@@ -4,6 +4,7 @@ import CoreData
 
 class MovieDetailVC: UIViewController {
     
+    var isactive : Bool = true
     var selectedId = 0
     
     private var urlString = ""
@@ -15,10 +16,14 @@ class MovieDetailVC: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     
+    @IBOutlet weak var saveMovieButton: UIButton!
     override func viewDidLoad(){
         super.viewDidLoad()
         
+       
+        
     }
+  
     // UIController başlamadan hemen önce çalışır.
     override func viewWillAppear(_ animated: Bool) {
         imageView.backgroundColor = .darkGray
@@ -33,21 +38,36 @@ class MovieDetailVC: UIViewController {
     // Core data veri kaydetme işlemini burada yapıyoruz.
     @IBAction func saveFavouriteButton(_ sender: Any) {
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let saveData = NSEntityDescription.insertNewObject(forEntityName: "MoviesData", into: context)
         
-        saveData.setValue(titleLabel.text, forKey: "title")
-        saveData.setValue(releaseLabel.text, forKey: "releaseDate")
-        saveData.setValue(voteAverageLabel.text, forKey: "voteCount")
-        
-        saveData.setValue(urlString, forKey: "image")
-        saveData.setValue(UUID(), forKey: "id")
-        saveData.setValue(selectedId, forKey: "movieId")
         do {
-            try context.save()
-            savedAlert()
-            
+            if isactive == true {
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let context = appDelegate.persistentContainer.viewContext
+                let saveData = NSEntityDescription.insertNewObject(forEntityName: "MoviesData", into: context)
+                print("Caks", appDelegate, "  ASA  ",context,"  ASA  ",saveData)
+                saveData.setValue(titleLabel.text, forKey: "title")
+                saveData.setValue(releaseLabel.text, forKey: "releaseDate")
+                saveData.setValue(voteAverageLabel.text, forKey: "voteCount")
+                
+                saveData.setValue(urlString, forKey: "image")
+                saveData.setValue(UUID(), forKey: "id")
+                saveData.setValue(selectedId, forKey: "movieId")
+                
+                isactive = false
+                print("catch Buraya veriyi kaydetti")
+                try context.save() // Telefonu yeniden başlatınca kaydetmeyi sağlıyor
+                savedAlert(title: "Succes", message: "Congratulations. Successfully Saved")
+                isButtonImage(imageName: "checkmark.circle.fill")
+                
+
+            }
+            else {
+                isactive = true
+                isButtonImage(imageName: "book")
+
+                print("catch Buraya veriyiSildi")
+                savedAlert(title: "Delete", message: "Congratulations. Successfully Deleted")
+            }
         } catch {
             print("Catch: MovieDetailVC.swift : saveFavouriteButton")
             
@@ -55,17 +75,25 @@ class MovieDetailVC: UIViewController {
         
         // Kaydedilen bir data olduğu haberini gönderiyoruz. Bunu da newData key'i ile yapıyoruz.
         NotificationCenter.default.post(name: Notification.Name.init(rawValue: "newData"), object: nil)
+
+
+    }
+    func isButtonImage(imageName: String){
         
+        saveMovieButton.setImage(UIImage(systemName: imageName), for: .normal)
+
+
     }
     
     // Kayıt başarılı olunca alert veriyor.
-    func savedAlert() {
-        let dialogMessage = UIAlertController(title: "Succes", message: "Congratulations. Successfully Saved", preferredStyle: .alert)
+    func savedAlert(title: String, message: String) {
+        let dialogMessage = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let ok = UIAlertAction(title: "OK", style: .default, handler:  nil)
         
         dialogMessage.addAction(ok)
         self.present(dialogMessage, animated: true, completion: nil)
+        
     }
     
     

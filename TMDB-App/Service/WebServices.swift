@@ -5,21 +5,20 @@ import UIKit
 class WebServices {
     static let shared = WebServices()
     private var api = API()
-    private var taskShared = URLSession.shared
+    private var session = URLSession.shared
     
-    //completion tamamlama bloğu içerisinde escaping clousere kullandık.
+    // Asenkron işlemler için escaping clousere kullandık. Modeli işledikten sonra tekrar çağırmamız gerektiği için completion tamamlama bloğu içerisinde escaping clousere kullandık
     func getMovie(page:Int, type: String, completion: @escaping(Result<[Movie], Error>)->()){
         
         guard let url = URL(string: api.discoverURL + "\(type)" + API().apiKey+"&page=\(page)") else {return}
         
-        let task = taskShared.dataTask(with: URLRequest(url: url)) { data, _, error in
+        session.dataTask(with: URLRequest(url: url)) { data, _, error in
             guard let data = data, error == nil else {
                 return
             }
             do {
                 let result = try JSONDecoder().decode(Movies.self, from: data)
-                completion(.success(result.results))
-                
+                completion(.success(result.results!))
             }
             catch {
                 completion(.failure(error))
@@ -27,12 +26,12 @@ class WebServices {
                 
             }
         }
-        task.resume()
+        .resume()
     }
     
     func getMovieDetail(id: Int, completion: @escaping(Result<Movie, Error>)->()){
         guard let url = URL(string: "\(api.baseURL)/3/movie/\(id)?\(API().apiKey)&language=en-US") else {return}
-        let task = taskShared.dataTask(with: URLRequest(url: url)) { data, _, error in
+        let task = session.dataTask(with: URLRequest(url: url)) { data, _, error in
             guard let data = data, error == nil else {
                 return
             }
@@ -52,13 +51,13 @@ class WebServices {
     
     func getSearchMovies(query: String, completion: @escaping(Result<[Movie], Error>)->()){
         guard let searchURL = URL(string: api.searchURL + (query)) else {return}
-        let task = taskShared.dataTask(with: URLRequest(url: searchURL)) { data, _, error in
+        let task = session.dataTask(with: URLRequest(url: searchURL)) { data, _, error in
             guard let data = data, error == nil else {
                 return
             }
             do {
                 let result = try JSONDecoder().decode(Movies.self, from: data)
-                completion(.success(result.results))
+                completion(.success(result.results!))
             }
             catch {
                 completion(.failure(error))

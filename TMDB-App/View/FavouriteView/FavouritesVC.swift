@@ -55,6 +55,7 @@ class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         cell.voteAverageLabel.text = voteAverageArray[indexPath.row]
         let url = URL(string: movieImageData[indexPath.row])
         cell.movieImageView.kf.setImage(with: url)
+        print("ABCK", cell)
         return cell
     }
     
@@ -125,11 +126,11 @@ extension FavouritesVC {
     
     @objc private func getData(){
         //Aynı türden verileri kaydetmemeyi sağlıyor.
-        self.titleArray.removeAll(keepingCapacity: true)
-        self.idArray.removeAll(keepingCapacity: true)
-        self.movieIdArray.removeAll(keepingCapacity: true)
-        self.movieImageData.removeAll(keepingCapacity: true)
-        self.voteAverageArray.removeAll(keepingCapacity: true)
+        titleArray.removeAll(keepingCapacity: true)
+        idArray.removeAll(keepingCapacity: true)
+        movieIdArray.removeAll(keepingCapacity: true)
+        movieImageData.removeAll(keepingCapacity: true)
+        voteAverageArray.removeAll(keepingCapacity: true)
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
         let context = appDelegate.persistentContainer.viewContext
@@ -141,25 +142,25 @@ extension FavouritesVC {
             for result in results as! [NSManagedObject]{
                 
                 if let title = result.value(forKey: "title") as? String {
-                    self.titleArray.append(title)
+                    titleArray.append(title)
                     
                 }
                 if let id = result.value(forKey: "id") as? UUID {
-                    self.idArray.append(id)
+                    idArray.append(id)
                     
                 }
                 
                 if let movieId = result.value(forKey: "movieId") as? Int {
-                    self.movieIdArray.append(movieId)
+                    movieIdArray.append(movieId)
                     
                     
                 }
                 if let relaseDate = result.value(forKey: "releaseDate") as? String {
-                    self.relaseDateArray.append(relaseDate)
+                    relaseDateArray.append(relaseDate)
                     
                 }
                 if let movieImage = result.value(forKey: "image") as? String {
-                    self.movieImageData.append(movieImage)
+                    movieImageData.append(movieImage)
                     
                 }
                 

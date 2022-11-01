@@ -10,14 +10,14 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     private var selectedId = 0
     
     
-    @IBOutlet weak var movieTable: UITableView!
-    @IBOutlet weak var viewDropDown: UIView!
-    @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak private var movieTable: UITableView!
+    @IBOutlet weak private var viewDropDown: UIView!
+    @IBOutlet weak private var lblTitle: UILabel!
     
     
     override func viewDidLoad()  {
         super.viewDidLoad()
-        
+       
         movieTable.delegate = self
         movieTable.dataSource = self
         
@@ -28,7 +28,9 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
         DropDownListOptions()
         
     }
-    
+    @objc func eklemeTiklandi(){
+        print("Buraya Tikladi")
+    }
     
     // View ekranı oluştuktan hemen sonra çağrılır.
     override func viewDidAppear(_ animated: Bool) {
@@ -79,6 +81,7 @@ extension MovieListVC {
             
             switch result {
             case .success(let data):
+                
                 DispatchQueue.main.async {
                     self.moviesData.append(contentsOf: data)
                     self.movieTable.reloadData()
@@ -97,9 +100,11 @@ extension MovieListVC {
 
 
 //MARK: - TableView sonsuz scrool işlemi
+// TableView dataları gelmeden arka planda bunların countunu alıp işlem yapmamızı sağlıyor.
 extension MovieListVC: UITableViewDataSourcePrefetching{
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
         for index in indexPaths {
+            // -1 koyulması sebebi; oluşturulan diziler arasında sonsuz döngüye girmesini sağlıyor.
             if index.row  >= moviesData.count - 1{
                 
                 
@@ -134,7 +139,6 @@ extension MovieListVC {
         
         dropDown.bottomOffset = CGPoint(x: 0, y:(dropDown.anchorView?.plainView.bounds.height)!)
         dropDown.direction = .bottom
-        // * Unowned vs weak
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             switch item {
             case "Top Rated":
@@ -181,8 +185,8 @@ extension MovieListVC{
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
         if text.count > 1 {
-            
-            WebServices.shared.getSearchMovies(query: text) { [weak self] result in
+            let query = Utils.searchStringEdited(query: text)
+            WebServices.shared.getSearchMovies(query: query) { [weak self] result in
                 
                 switch result {
                 case .success(let success):

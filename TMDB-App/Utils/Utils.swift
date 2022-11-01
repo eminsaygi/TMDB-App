@@ -37,6 +37,16 @@ final class Utils {
         let double = Double(string)!
         return double
     }
+    static func searchStringEdited(query: String) -> String{
+        
+           
+        let queryString = String(query).split(separator: " ")
+        let searchString = queryString.joined(separator: "+")
+       
+        
+        return searchString
+
+    }
     
 }
          

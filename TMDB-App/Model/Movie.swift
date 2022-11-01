@@ -1,12 +1,12 @@
 import Foundation
 
-struct Movies: Codable {
+struct Movies: Decodable {
     let page: Int?
-    let results: [Movie]
+    let results: [Movie]?
 }
 
-
-struct Movie: Codable {
+//Decodable protocolünü kullanma amacımız; Json türündeki bir datayı Swfit dili için uygun objeleri çevirmemizi sağlıyor.
+struct Movie: Decodable {
     let id: Int?
     let voteAverage: Double
     
