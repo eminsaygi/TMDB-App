@@ -6,18 +6,16 @@ class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     // Core data içerisine kaydedilecek veri dizileri
     private var titleArray = [String]()
-    private var movieIdArray = [Int]()
+    public var movieIdArray = [Int]()
     private var relaseDateArray = [String]()
     private var movieImageData = [String]()
     private var voteAverageArray = [String]()
     private var idArray = [UUID]()
     
-    private var selectedId = 0
     
     private var moviesData: [Movie] = [Movie]()
     
-    
-    
+    private var selectedId = 0
     
     @IBOutlet weak var favouritesTable: UITableView!
     
@@ -28,13 +26,12 @@ class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         favouritesTable.delegate = self
         favouritesTable.dataSource = self
         
-        
-        
-        
-    }
-    override func viewDidAppear(_ animated: Bool) {
         getData()
+
+        
+        
     }
+  
     //UI Ekranı başlamadan hemen önce çağrılır.
     override func viewWillAppear(_ animated: Bool) {
         // Bir gözlemci tanımladık. Haberciden gelecek verileri işleyecek.
@@ -55,7 +52,6 @@ class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         cell.voteAverageLabel.text = voteAverageArray[indexPath.row]
         let url = URL(string: movieImageData[indexPath.row])
         cell.movieImageView.kf.setImage(with: url)
-        print("ABCK", cell)
         return cell
     }
     
@@ -68,8 +64,8 @@ class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toFavDetailVC"  {
             let detailVC = segue.destination as? MovieDetailVC
-            
             detailVC?.selectedId = selectedId
+            detailVC?.movieIdArray = movieIdArray
             
             
         }
@@ -112,12 +108,14 @@ extension FavouritesVC {
                     } catch {
                         print("Catch: FavouritesVC.swift : NSManagedObject")
                     }
+                    break
                 }
             }
         } catch {
             print("Catch: FavouritesVC.swift : commit editingStyle")
             
         }
+        
     }
 }
 
@@ -126,11 +124,11 @@ extension FavouritesVC {
     
     @objc private func getData(){
         //Aynı türden verileri kaydetmemeyi sağlıyor.
-        titleArray.removeAll(keepingCapacity: true)
-        idArray.removeAll(keepingCapacity: true)
-        movieIdArray.removeAll(keepingCapacity: true)
-        movieImageData.removeAll(keepingCapacity: true)
-        voteAverageArray.removeAll(keepingCapacity: true)
+        titleArray.removeAll(keepingCapacity: false)
+        idArray.removeAll(keepingCapacity: false)
+        movieIdArray.removeAll(keepingCapacity: false)
+        movieImageData.removeAll(keepingCapacity: false)
+        voteAverageArray.removeAll(keepingCapacity: false)
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
         let context = appDelegate.persistentContainer.viewContext
@@ -139,40 +137,43 @@ extension FavouritesVC {
         
         do {
             let results = try context.fetch(fetchRequest)
-            for result in results as! [NSManagedObject]{
-                
-                if let title = result.value(forKey: "title") as? String {
-                    titleArray.append(title)
+            if results.count > 0 {
+                for result in results as! [NSManagedObject]{
                     
+                    if let title = result.value(forKey: "title") as? String {
+                        titleArray.append(title)
+                        print("BURAYA GELDİ")
+                        
+                    }
+                    if let id = result.value(forKey: "id") as? UUID {
+                        idArray.append(id)
+                        
+                    }
+                    
+                    if let movieId = result.value(forKey: "movieId") as? Int {
+                        movieIdArray.append(movieId)
+                        
+                    }
+                    if let relaseDate = result.value(forKey: "releaseDate") as? String {
+                        relaseDateArray.append(relaseDate)
+                        
+                    }
+                    if let movieImage = result.value(forKey: "image") as? String {
+                        movieImageData.append(movieImage)
+                        
+                    }
+                    
+                    if let voteAverage = result.value(forKey: "voteCount") as? String {
+                        
+                        self.voteAverageArray.append(voteAverage)
+                        
+                    }
+                    
+                    
+                    self.favouritesTable.reloadData()
                 }
-                if let id = result.value(forKey: "id") as? UUID {
-                    idArray.append(id)
-                    
-                }
-                
-                if let movieId = result.value(forKey: "movieId") as? Int {
-                    movieIdArray.append(movieId)
-                    
-                    
-                }
-                if let relaseDate = result.value(forKey: "releaseDate") as? String {
-                    relaseDateArray.append(relaseDate)
-                    
-                }
-                if let movieImage = result.value(forKey: "image") as? String {
-                    movieImageData.append(movieImage)
-                    
-                }
-                
-                if let voteAverage = result.value(forKey: "voteCount") as? String {
-                    
-                    self.voteAverageArray.append(voteAverage)
-                    
-                }
-                
-                
-                self.favouritesTable.reloadData()
             }
+          
         } catch {
             print("Catch: FavouritesVC.swift : DataList")
             

@@ -4,10 +4,10 @@ import CoreData
 
 class MovieDetailVC: UIViewController {
     
-    var isactive : Bool = true
-    var selectedId = 0
-    
+    private var isactive: Bool = true
     private var urlString = ""
+    var selectedId = 0
+    var movieIdArray : [Int]!
     
     @IBOutlet weak var voteAverageLabel: UILabel!
     
@@ -20,54 +20,59 @@ class MovieDetailVC: UIViewController {
     override func viewDidLoad(){
         super.viewDidLoad()
         
-       
         
-    }
-  
-    // UIController başlamadan hemen önce çalışır.
-    override func viewWillAppear(_ animated: Bool) {
+        getDetailData()
         imageView.backgroundColor = .darkGray
         overViewLabel.text = ""
         
-    }
-    //UIController ekranı oluştuktan hemen sonra çalışır
-    override func viewDidAppear(_ animated: Bool) {
-        getDetailData()
         
     }
+    override func viewWillAppear(_ animated: Bool) {
+        
+        guard let movieIdArray = self.movieIdArray else {return}
+        
+        for id in movieIdArray {
+            if id == selectedId {
+                isactive = false
+                
+            }
+        }
+        if isactive == false {
+            isButtonActive()
+            
+        }
+       
+    }
+    
+     private func isButtonActive(){
+        isButtonImage(imageName: "checkmark.circle.fill")
+        saveMovieButton.isEnabled = false
+    }
+    
+    
     // Core data veri kaydetme işlemini burada yapıyoruz.
-    @IBAction func saveFavouriteButton(_ sender: Any) {
+    @IBAction private func saveFavouriteButton(_ sender: Any) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let saveData = NSEntityDescription.insertNewObject(forEntityName: "MoviesData", into: context)
         
+        saveData.setValue(titleLabel.text, forKey: "title")
+        saveData.setValue(releaseLabel.text, forKey: "releaseDate")
+        saveData.setValue(voteAverageLabel.text, forKey: "voteCount")
+        saveData.setValue(urlString, forKey: "image")
+        saveData.setValue(UUID(), forKey: "id")
+        saveData.setValue(selectedId, forKey: "movieId")
         
         do {
-            if isactive == true {
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let context = appDelegate.persistentContainer.viewContext
-                let saveData = NSEntityDescription.insertNewObject(forEntityName: "MoviesData", into: context)
-                print("Caks", appDelegate, "  ASA  ",context,"  ASA  ",saveData)
-                saveData.setValue(titleLabel.text, forKey: "title")
-                saveData.setValue(releaseLabel.text, forKey: "releaseDate")
-                saveData.setValue(voteAverageLabel.text, forKey: "voteCount")
+            if isactive {
                 
-                saveData.setValue(urlString, forKey: "image")
-                saveData.setValue(UUID(), forKey: "id")
-                saveData.setValue(selectedId, forKey: "movieId")
-                
-                isactive = false
-                print("catch Buraya veriyi kaydetti")
                 try context.save() // Telefonu yeniden başlatınca kaydetmeyi sağlıyor
                 savedAlert(title: "Succes", message: "Congratulations. Successfully Saved")
                 isButtonImage(imageName: "checkmark.circle.fill")
+                saveMovieButton.isEnabled = false
                 
-
             }
-            else {
-                isactive = true
-                isButtonImage(imageName: "book")
-
-                print("catch Buraya veriyiSildi")
-                savedAlert(title: "Delete", message: "Congratulations. Successfully Deleted")
-            }
+            
         } catch {
             print("Catch: MovieDetailVC.swift : saveFavouriteButton")
             
@@ -75,18 +80,17 @@ class MovieDetailVC: UIViewController {
         
         // Kaydedilen bir data olduğu haberini gönderiyoruz. Bunu da newData key'i ile yapıyoruz.
         NotificationCenter.default.post(name: Notification.Name.init(rawValue: "newData"), object: nil)
-
-
-    }
-    func isButtonImage(imageName: String){
         
+        
+    }
+    private func isButtonImage(imageName: String){
         saveMovieButton.setImage(UIImage(systemName: imageName), for: .normal)
-
-
+        
+        
     }
     
     // Kayıt başarılı olunca alert veriyor.
-    func savedAlert(title: String, message: String) {
+    private func savedAlert(title: String, message: String) {
         let dialogMessage = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let ok = UIAlertAction(title: "OK", style: .default, handler:  nil)
@@ -103,7 +107,7 @@ class MovieDetailVC: UIViewController {
 
 extension MovieDetailVC {
     
-    func getDetailData(){
+    private func getDetailData(){
         WebServices.shared.getMovieDetail(id: selectedId){ result in
             
             

@@ -8,6 +8,7 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     private let typeMovie = TypeMovie()
     private var currentPage: Int = 1
     private var selectedId = 0
+    private var movieIdArray = [Int]()
     
     
     @IBOutlet weak private var movieTable: UITableView!
@@ -17,19 +18,45 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     
     override func viewDidLoad()  {
         super.viewDidLoad()
-       
+        
         movieTable.delegate = self
         movieTable.dataSource = self
         
-        
         searchController()
         refreshControl()
-        
         DropDownListOptions()
         
     }
-    @objc func eklemeTiklandi(){
-        print("Buraya Tikladi")
+    
+    private func getCoreData(){
+        //Aynı türden verileri kaydetmemeyi sağlıyor.
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "MoviesData")
+        fetchRequest.returnsObjectsAsFaults = false // Büyük data verilerini okurken hız sağlıyor.
+        
+        do {
+            let results = try context.fetch(fetchRequest)
+            if results.count > 0 {
+                for result in results as! [NSManagedObject]{
+                    
+                    if let movieId = result.value(forKey: "movieId") as? Int {
+                        movieIdArray.append(movieId)
+                        
+                    }
+                    
+                }
+            }
+            
+        } catch {
+            print("Catch: MovieListVC.swift : getCoreData")
+            
+        }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        getCoreData()
+        
     }
     
     // View ekranı oluştuktan hemen sonra çağrılır.
@@ -62,8 +89,8 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toDetailVC"  {
             let detailVC = segue.destination as? MovieDetailVC
-            
             detailVC?.selectedId = selectedId
+            detailVC?.movieIdArray = movieIdArray
             
             
         }
