@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9FX-vC-Yyd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9FX-vC-Yyd">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -87,7 +87,7 @@
                                                         <constraint firstAttribute="width" constant="186" id="HAY-RG-MxF"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
-                                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="loE-De-nni">
@@ -182,7 +182,7 @@
                                                         <constraint firstAttribute="width" constant="186" id="OL4-Yu-fZQ"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
-                                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6vV-EQ-9mT">
@@ -272,16 +272,6 @@
             <point key="canvasLocation" x="3374" y="705"/>
         </scene>
         <!--Settings-->
-        <scene sceneID="Nky-qi-Z9d">
-            <objects>
-                <tableViewController id="dvK-Lk-UOB" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="Settings" id="dpp-NB-ze8"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fNO-na-dPj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3374" y="-707"/>
-        </scene>
-        <!--Settings-->
         <scene sceneID="yd3-Ef-pwS">
             <objects>
                 <navigationController id="U98-Io-aEN" sceneMemberID="viewController">
@@ -291,12 +281,38 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="dvK-Lk-UOB" kind="relationship" relationship="rootViewController" id="01Q-eC-yVm"/>
+                        <segue destination="4PP-E2-JLo" kind="relationship" relationship="rootViewController" id="vkk-wg-NOI"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z5T-N9-pOD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2557" y="-707"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="SBs-AO-jPZ">
+            <objects>
+                <viewController id="hK9-Kx-Baq" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ypk-xO-zzA">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="1dk-qc-244"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Settings" id="S1X-yE-pr6"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Sos-xf-SYW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3374" y="-1039"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="PRq-e8-I3M">
+            <objects>
+                <hostingController id="4PP-E2-JLo" customClass="SettingsVCBridge" customModule="TMDB_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" title="Settings" id="fqJ-yx-hKP"/>
+                </hostingController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UHn-oT-QYQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4192" y="-709"/>
         </scene>
         <!--Home-->
         <scene sceneID="hF2-AV-m2k">
@@ -488,7 +504,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="gPm-7L-pJo"/>
+        <segue reference="FpL-Zn-nYI"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow" width="12" height="12"/>

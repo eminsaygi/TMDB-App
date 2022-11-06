@@ -26,6 +26,8 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
         refreshControl()
         DropDownListOptions()
         
+    
+        
     }
     
     private func getCoreData(){
