@@ -12,7 +12,7 @@ class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     private var voteAverageArray = [String]()
     private var idArray = [UUID]()
     
-    
+    var deneme = "Blabla"
     private var moviesData: [Movie] = [Movie]()
     
     private var selectedId = 0
@@ -31,11 +31,14 @@ class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         
         
     }
-  
+    
+   
     //UI Ekranı başlamadan hemen önce çağrılır.
     override func viewWillAppear(_ animated: Bool) {
         // Bir gözlemci tanımladık. Haberciden gelecek verileri işleyecek.
         NotificationCenter.default.addObserver(self, selector: #selector(getData), name: NSNotification.Name(rawValue: "newData"), object: nil)
+        
+
         
     }
     
@@ -66,6 +69,12 @@ class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             let detailVC = segue.destination as? MovieDetailVC
             detailVC?.selectedId = selectedId
             detailVC?.movieIdArray = movieIdArray
+            
+            
+        }
+        if segue.identifier == "tryVC"  {
+            let detailVC = segue.destination as? MovieListVC
+            detailVC!.langString = deneme
             
             
         }
@@ -142,7 +151,6 @@ extension FavouritesVC {
                     
                     if let title = result.value(forKey: "title") as? String {
                         titleArray.append(title)
-                        print("BURAYA GELDİ")
                         
                     }
                     if let id = result.value(forKey: "id") as? UUID {

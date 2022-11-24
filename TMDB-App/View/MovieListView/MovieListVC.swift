@@ -9,6 +9,8 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     private var currentPage: Int = 1
     private var selectedId = 0
     private var movieIdArray = [Int]()
+    public var langString = ""
+    
     
     
     @IBOutlet weak private var movieTable: UITableView!
@@ -22,13 +24,12 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
         movieTable.delegate = self
         movieTable.dataSource = self
         
-        searchController()
         refreshControl()
-        DropDownListOptions()
         
-    
+        
         
     }
+    
     
     private func getCoreData(){
         //Aynı türden verileri kaydetmemeyi sağlıyor.
@@ -58,6 +59,12 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     }
     override func viewWillAppear(_ animated: Bool) {
         getCoreData()
+        print("AKD",Singleton.shared.lang)
+        DropDownListOptions()
+        searchController()
+
+
+
         
     }
     
@@ -137,13 +144,14 @@ extension MovieListVC: UITableViewDataSourcePrefetching{
             if index.row  >= moviesData.count - 1{
                 
                 
+                
                 let categoryControl = self.lblTitle.text
                 switch categoryControl {
-                case "Top Rated":
+                case "\(langChange(str: "Top Rated", lang: Singleton.shared.lang))":
                     getMovieData(type: typeMovie.voteCount)
-                case "Most Popular":
+                case "\(langChange(str: "Most Popular", lang: Singleton.shared.lang))":
                     getMovieData(type: typeMovie.popularity)
-                case "Latest":
+                case "\(langChange(str: "Latest", lang: Singleton.shared.lang))":
                     getMovieData(type: typeMovie.upComing)
                 default:
                     getMovieData(type: typeMovie.voteCount)
@@ -159,9 +167,9 @@ extension MovieListVC {
     
     
     private func DropDownListOptions() {
-        let categoryMovies = ["Top Rated","Most Popular","Latest"]
+        let categoryMovies = ["\(langChange(str: "Top Rated", lang: Singleton.shared.lang))","\(langChange(str: "Most Popular", lang: Singleton.shared.lang))","\(langChange(str: "Latest", lang: Singleton.shared.lang))"]
         
-        lblTitle.text = "Top Rated"
+        lblTitle.text = "\(langChange(str: "Top Rated", lang: Singleton.shared.lang))"
         
         dropDown.anchorView = viewDropDown
         dropDown.dataSource = categoryMovies
@@ -170,11 +178,11 @@ extension MovieListVC {
         dropDown.direction = .bottom
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             switch item {
-            case "Top Rated":
+            case "\(langChange(str: "Top Rated", lang: Singleton.shared.lang))":
                 getMovieData(type: typeMovie.voteCount)
-            case "Most Popular":
+            case "\(langChange(str: "Most Popular", lang: Singleton.shared.lang))":
                 getMovieData(type: typeMovie.popularity)
-            case "Latest":
+            case "\(langChange(str: "Latest", lang: Singleton.shared.lang))":
                 getMovieData(type: typeMovie.upComing)
             default:
                 getMovieData(type: typeMovie.voteCount)
@@ -203,7 +211,7 @@ extension MovieListVC{
         let search = UISearchController(searchResultsController: nil)
         search.searchResultsUpdater = self
         search.obscuresBackgroundDuringPresentation = false
-        search.searchBar.placeholder = "Type something here to search movies"
+        search.searchBar.placeholder = langChange(str: "Type something here to search movies", lang: Singleton.shared.lang)
         navigationItem.searchController = search
         
         
@@ -249,7 +257,7 @@ extension MovieListVC{
         moviesData.removeAll()
         currentPage = 1
         getMovieData(type: typeMovie.voteCount)
-        lblTitle.text = "Top Rated"
+        lblTitle.text = "\(langChange(str: "Top Rated", lang: Singleton.shared.lang))"
         movieTable.refreshControl?.endRefreshing()
     }
     

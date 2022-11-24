@@ -1,0 +1,66 @@
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "3K1-rE-ykJ"; */
+"3K1-rE-ykJ.title" = "Item";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "4gl-eN-q41"; */
+"4gl-eN-q41.text" = "Label";
+
+/* Class = "UILabel"; text = "2012-04-25"; ObjectID = "5Ps-8m-nCU"; */
+"5Ps-8m-nCU.text" = "2012-04-25";
+
+/* Class = "UILabel"; text = "7.8/10"; ObjectID = "6pA-Zq-oEe"; */
+"6pA-Zq-oEe.text" = "7.8/10";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "6vV-EQ-9mT"; */
+"6vV-EQ-9mT.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "FW4-0S-jqY"; */
+"FW4-0S-jqY.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Fty-2N-lv1"; */
+"Fty-2N-lv1.normalTitle" = "Button";
+
+/* Class = "UINavigationItem"; title = "Details"; ObjectID = "GU2-C1-5XG"; */
+"GU2-C1-5XG.title" = "Details";
+
+/* Class = "UILabel"; text = "7.8/10"; ObjectID = "Kyi-dA-qfu"; */
+"Kyi-dA-qfu.text" = "7.8/10";
+
+/* Class = "UINavigationItem"; title = "Settings"; ObjectID = "S1X-yE-pr6"; */
+"S1X-yE-pr6.title" = "Settings";
+
+/* Class = "UITabBarItem"; title = "Home"; ObjectID = "X2A-h9-rW0"; */
+"X2A-h9-rW0.title" = "Home";
+
+/* Class = "UINavigationItem"; title = "Favourites"; ObjectID = "XSU-WG-w9c"; */
+"XSU-WG-w9c.title" = "Favourites";
+
+/* Class = "UILabel"; text = "7.8/10"; ObjectID = "XgU-EW-1fE"; */
+"XgU-EW-1fE.text" = "7.8/10";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "cVY-gj-V3Q"; */
+"cVY-gj-V3Q.text" = "Label";
+
+/* Class = "UITabBarItem"; title = "Settings"; ObjectID = "d3W-nO-nqD"; */
+"d3W-nO-nqD.title" = "Settings";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "dDA-cL-706"; */
+"dDA-cL-706.text" = "Label";
+
+/* Class = "UINavigationItem"; title = "Settings"; ObjectID = "fqJ-yx-hKP"; */
+"fqJ-yx-hKP.title" = "Settings";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "loE-De-nni"; */
+"loE-De-nni.text" = "Label";
+
+/* Class = "UIViewController"; title = "Details Page"; ObjectID = "nEE-xS-fHv"; */
+"nEE-xS-fHv.title" = "Details Page";
+
+/* Class = "UITabBarItem"; title = "Favourites"; ObjectID = "oFK-Pp-uEs"; */
+"oFK-Pp-uEs.title" = "Favourites";
+
+/* Class = "UINavigationItem"; title = "Movie List"; ObjectID = "oO2-tj-Q1S"; */
+"oO2-tj-Q1S.title" = "Movie List";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "rKS-WI-O9A"; */
+"rKS-WI-O9A.text" = "Label";

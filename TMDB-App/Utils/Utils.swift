@@ -50,5 +50,19 @@ final class Utils {
     
 }
          
-         
+
     
+
+extension String {
+    func localizableStringg(lang: String) -> String{
+        let path = Bundle.main.path(forResource: lang, ofType: "lproj")
+        let bundle = Bundle(path: path!)
+        return NSLocalizedString(self, tableName: nil, bundle: bundle!, value: "", comment:"")
+    }
+   
+}
+
+func langChange(str: String,lang:String) -> String{
+    let str = str.localizableStringg(lang: lang)
+    return str
+}

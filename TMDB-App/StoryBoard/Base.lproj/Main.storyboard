@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Movie List-->
+        <!--Movie ListVC-->
         <scene sceneID="bFQ-4J-sri">
             <objects>
                 <viewController id="edk-bc-8i2" customClass="MovieListVC" customModule="TMDB_App" customModuleProvider="target" sceneMemberID="viewController">
@@ -145,7 +145,7 @@
                             <constraint firstItem="JJj-4n-RGq" firstAttribute="centerX" secondItem="dVC-nz-5SI" secondAttribute="centerX" id="zqZ-vF-aHr"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Movie List" id="oO2-tj-Q1S"/>
+                    <navigationItem key="navigationItem" id="oO2-tj-Q1S"/>
                     <connections>
                         <outlet property="lblTitle" destination="dDA-cL-706" id="edd-FK-Pac"/>
                         <outlet property="movieTable" destination="JJj-4n-RGq" id="Juv-CW-4dE"/>
@@ -157,7 +157,7 @@
             </objects>
             <point key="canvasLocation" x="3375" y="-34"/>
         </scene>
-        <!--Favourites-->
+        <!--FavouritesVC-->
         <scene sceneID="LAA-QE-AeZ">
             <objects>
                 <viewController id="hY3-xi-ph8" customClass="FavouritesVC" customModule="TMDB_App" customModuleProvider="target" sceneMemberID="viewController">
@@ -261,21 +261,22 @@
                             <constraint firstAttribute="bottomMargin" secondItem="8zD-07-m5Z" secondAttribute="bottom" constant="-34" id="xW4-lw-PgK"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Favourites" id="XSU-WG-w9c"/>
+                    <navigationItem key="navigationItem" id="XSU-WG-w9c"/>
                     <connections>
                         <outlet property="favouritesTable" destination="8zD-07-m5Z" id="F4z-q3-a8I"/>
                         <segue destination="nEE-xS-fHv" kind="show" identifier="toFavDetailVC" id="FpL-Zn-nYI"/>
+                        <segue destination="edk-bc-8i2" kind="show" identifier="tryVC" id="e99-YI-cib"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ocj-zX-eNF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3374" y="705"/>
+            <point key="canvasLocation" x="3373.8461538461538" y="704.50236966824639"/>
         </scene>
-        <!--Settings-->
+        <!--Navigation Controller-->
         <scene sceneID="yd3-Ef-pwS">
             <objects>
                 <navigationController id="U98-Io-aEN" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Settings" image="settings" id="d3W-nO-nqD"/>
+                    <tabBarItem key="tabBarItem" title="" image="settings" id="d3W-nO-nqD"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="7ac-i8-2B0">
                         <rect key="frame" x="0.0" y="47" width="390" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -288,37 +289,24 @@
             </objects>
             <point key="canvasLocation" x="2557" y="-707"/>
         </scene>
-        <!--Settings-->
-        <scene sceneID="SBs-AO-jPZ">
-            <objects>
-                <viewController id="hK9-Kx-Baq" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ypk-xO-zzA">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="1dk-qc-244"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Settings" id="S1X-yE-pr6"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Sos-xf-SYW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3374" y="-1039"/>
-        </scene>
-        <!--Settings-->
+        <!--SettingsVC Bridge-->
         <scene sceneID="PRq-e8-I3M">
             <objects>
                 <hostingController id="4PP-E2-JLo" customClass="SettingsVCBridge" customModule="TMDB_App" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="Settings" id="fqJ-yx-hKP"/>
+                    <navigationItem key="navigationItem" id="fqJ-yx-hKP"/>
+                    <connections>
+                        <segue destination="edk-bc-8i2" kind="show" identifier="toListVC" id="RHl-Xz-eEO"/>
+                    </connections>
                 </hostingController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UHn-oT-QYQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4192" y="-709"/>
         </scene>
-        <!--Home-->
+        <!--Navigation Controller-->
         <scene sceneID="hF2-AV-m2k">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cLo-AT-nza" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" image="video-player" id="X2A-h9-rW0"/>
+                    <tabBarItem key="tabBarItem" title="" image="video-player" id="X2A-h9-rW0"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="kY9-Qo-Iwa">
                         <rect key="frame" x="0.0" y="47" width="390" height="44"/>
@@ -355,11 +343,11 @@
             </objects>
             <point key="canvasLocation" x="1649" y="-34"/>
         </scene>
-        <!--Favourites-->
+        <!--Navigation Controller-->
         <scene sceneID="80T-AS-gzh">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Bmu-Sr-VnA" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Favourites" image="bookmark" id="oFK-Pp-uEs"/>
+                    <tabBarItem key="tabBarItem" title="" image="bookmark" id="oFK-Pp-uEs"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="N9o-H9-ojM">
                         <rect key="frame" x="0.0" y="47" width="390" height="44"/>
@@ -505,6 +493,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="FpL-Zn-nYI"/>
+        <segue reference="e99-YI-cib"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow" width="12" height="12"/>
