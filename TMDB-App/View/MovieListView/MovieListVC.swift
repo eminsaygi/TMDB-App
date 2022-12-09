@@ -2,7 +2,7 @@ import UIKit
 import DropDown
 import CoreData
 
-class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, UISearchResultsUpdating {
+class MovieListVC: UIViewController, UISearchResultsUpdating {
     private var moviesData: [Movie] = [Movie]()
     private let dropDown = DropDown()
     private let typeMovie = TypeMovie()
@@ -59,7 +59,6 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
     }
     override func viewWillAppear(_ animated: Bool) {
         getCoreData()
-        print("AKD",Singleton.shared.lang)
         DropDownListOptions()
         searchController()
 
@@ -74,6 +73,23 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
         
     }
     
+    
+   
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toDetailVC"  {
+            let detailVC = segue.destination as? MovieDetailVC
+            detailVC?.selectedId = selectedId
+            detailVC?.movieIdArray = movieIdArray
+            
+            
+        }
+    }
+    
+    
+    
+}
+
+extension MovieListVC : UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return moviesData.count
@@ -95,19 +111,11 @@ class MovieListVC: UIViewController,UITableViewDelegate,UITableViewDataSource, U
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toDetailVC"  {
-            let detailVC = segue.destination as? MovieDetailVC
-            detailVC?.selectedId = selectedId
-            detailVC?.movieIdArray = movieIdArray
-            
-            
-        }
-    }
-    
-    
     
 }
+
+
+
 
 //MARK: - Film verilerini çekme işlemi
 extension MovieListVC {
@@ -121,7 +129,7 @@ extension MovieListVC {
                 DispatchQueue.main.async {
                     self.moviesData.append(contentsOf: data)
                     self.movieTable.reloadData()
-                    self.currentPage += 1
+                    //self.currentPage += 1
                     
                     
                 }
@@ -142,16 +150,13 @@ extension MovieListVC: UITableViewDataSourcePrefetching{
         for index in indexPaths {
             // -1 koyulması sebebi; oluşturulan diziler arasında sonsuz döngüye girmesini sağlıyor.
             if index.row  >= moviesData.count - 1{
-                
-                
-                
                 let categoryControl = self.lblTitle.text
                 switch categoryControl {
-                case "\(langChange(str: "Top Rated", lang: Singleton.shared.lang))":
+                case "\(langChange(str: "Top Rated", lang: Utils.shared.lang))":
                     getMovieData(type: typeMovie.voteCount)
-                case "\(langChange(str: "Most Popular", lang: Singleton.shared.lang))":
+                case "\(langChange(str: "Most Popular", lang: Utils.shared.lang))":
                     getMovieData(type: typeMovie.popularity)
-                case "\(langChange(str: "Latest", lang: Singleton.shared.lang))":
+                case "\(langChange(str: "Latest", lang: Utils.shared.lang))":
                     getMovieData(type: typeMovie.upComing)
                 default:
                     getMovieData(type: typeMovie.voteCount)
@@ -167,9 +172,9 @@ extension MovieListVC {
     
     
     private func DropDownListOptions() {
-        let categoryMovies = ["\(langChange(str: "Top Rated", lang: Singleton.shared.lang))","\(langChange(str: "Most Popular", lang: Singleton.shared.lang))","\(langChange(str: "Latest", lang: Singleton.shared.lang))"]
+        let categoryMovies = ["\(langChange(str: "Top Rated", lang: Utils.shared.lang))","\(langChange(str: "Most Popular", lang: Utils.shared.lang))","\(langChange(str: "Latest", lang: Utils.shared.lang))"]
         
-        lblTitle.text = "\(langChange(str: "Top Rated", lang: Singleton.shared.lang))"
+        lblTitle.text = "\(langChange(str: "Top Rated", lang: Utils.shared.lang))"
         
         dropDown.anchorView = viewDropDown
         dropDown.dataSource = categoryMovies
@@ -178,11 +183,11 @@ extension MovieListVC {
         dropDown.direction = .bottom
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             switch item {
-            case "\(langChange(str: "Top Rated", lang: Singleton.shared.lang))":
+            case "\(langChange(str: "Top Rated", lang: Utils.shared.lang))":
                 getMovieData(type: typeMovie.voteCount)
-            case "\(langChange(str: "Most Popular", lang: Singleton.shared.lang))":
+            case "\(langChange(str: "Most Popular", lang: Utils.shared.lang))":
                 getMovieData(type: typeMovie.popularity)
-            case "\(langChange(str: "Latest", lang: Singleton.shared.lang))":
+            case "\(langChange(str: "Latest", lang: Utils.shared.lang))":
                 getMovieData(type: typeMovie.upComing)
             default:
                 getMovieData(type: typeMovie.voteCount)
@@ -211,7 +216,7 @@ extension MovieListVC{
         let search = UISearchController(searchResultsController: nil)
         search.searchResultsUpdater = self
         search.obscuresBackgroundDuringPresentation = false
-        search.searchBar.placeholder = langChange(str: "Type something here to search movies", lang: Singleton.shared.lang)
+        search.searchBar.placeholder = langChange(str: "Type something here to search movies", lang: Utils.shared.lang)
         navigationItem.searchController = search
         
         
@@ -257,7 +262,7 @@ extension MovieListVC{
         moviesData.removeAll()
         currentPage = 1
         getMovieData(type: typeMovie.voteCount)
-        lblTitle.text = "\(langChange(str: "Top Rated", lang: Singleton.shared.lang))"
+        lblTitle.text = "\(langChange(str: "Top Rated", lang: Utils.shared.lang))"
         movieTable.refreshControl?.endRefreshing()
     }
     

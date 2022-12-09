@@ -67,4 +67,43 @@ class WebServices {
         }
         task.resume()
     }
+    
+    func fetchRequestToken(completion: @escaping (RequestToken) -> Void) {
+        guard let url = URL(string: "\(API().baseURL)/3/authentication/token/new?api_key=464f8a5567ef6de84d256d195532ca13") else {return}
+        let task = session.dataTask(with: url) { (data, response, error) in
+            if let data = data {
+                let decoder = JSONDecoder()
+                do {
+                    let requestToken = try decoder.decode(RequestToken.self, from: data)
+                    completion(requestToken)
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        task.resume()
+    }
+
+    func login(token:String,userName: String, password: String,completion: @escaping (RequestToken) -> Void) {
+        guard let url = URL(string: "\(API().baseURL)/3/authentication/token/validate_with_login?api_key=464f8a5567ef6de84d256d195532ca13&username=\(userName)&password=\(password)&request_token=\(token)") else {return
+            
+            
+        }
+        print(url)
+        let task = session.dataTask(with: url) { (data, response, error) in
+            if let data = data {
+                let decoder = JSONDecoder()
+                do {
+                    let requestToken = try decoder.decode(RequestToken.self, from: data)
+                    completion(requestToken)
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        task.resume()
+    }
+    
+ 
+    
 }

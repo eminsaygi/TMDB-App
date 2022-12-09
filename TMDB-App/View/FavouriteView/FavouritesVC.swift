@@ -12,7 +12,6 @@ class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     private var voteAverageArray = [String]()
     private var idArray = [UUID]()
     
-    var deneme = "Blabla"
     private var moviesData: [Movie] = [Movie]()
     
     private var selectedId = 0
@@ -27,18 +26,18 @@ class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         favouritesTable.dataSource = self
         
         getData()
-
+        
         
         
     }
     
-   
+    
     //UI Ekranı başlamadan hemen önce çağrılır.
     override func viewWillAppear(_ animated: Bool) {
         // Bir gözlemci tanımladık. Haberciden gelecek verileri işleyecek.
         NotificationCenter.default.addObserver(self, selector: #selector(getData), name: NSNotification.Name(rawValue: "newData"), object: nil)
         
-
+        
         
     }
     
@@ -72,12 +71,7 @@ class FavouritesVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             
             
         }
-        if segue.identifier == "tryVC"  {
-            let detailVC = segue.destination as? MovieListVC
-            detailVC!.langString = deneme
-            
-            
-        }
+      
     }
     
     
@@ -181,7 +175,7 @@ extension FavouritesVC {
                     self.favouritesTable.reloadData()
                 }
             }
-          
+            
         } catch {
             print("Catch: FavouritesVC.swift : DataList")
             

@@ -1,9 +1,13 @@
 import Foundation
 import UIKit
 
+
+
+
 final class Utils {
     
-    
+    static let shared = Utils()
+    var lang = "en"
     
     // MARK: - Tarih formatını düzenlediğimiz fonksiyon
     static func formattedDateFromString(dateString: String, withFormat format: String) -> String? {

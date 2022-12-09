@@ -42,7 +42,7 @@ struct SettingsVC: View {
                     .pickerStyle(.menu)
                     .onChange(of: selection) { value in
                         valueS = value
-                        Singleton.shared.lang = value
+                        Utils.shared.lang = value
                     }
                 }
                
@@ -74,13 +74,16 @@ struct SettingsVC_Previews: PreviewProvider {
     }
 }
 
-@available(iOS 16.0, *)
-class SettingsVCBridge : UIHostingController<SettingsVC> {
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder, rootView: SettingsVC())
-    }
-}
 
+ @available(iOS 16.0, *)
+ class SettingsVCBridge : UIHostingController<SettingsVC> {
+     required init?(coder aDecoder: NSCoder) {
+         super.init(coder: aDecoder, rootView: SettingsVC())
+     }
+ }
+
+
+ 
 
 
 
