@@ -101,15 +101,28 @@ class LoginViewController: UIViewController {
     
     @IBAction func login(_ sender: UIButton) {
         
-        WebServices.shared.login(token: token, userName: usernameTextField.text!, password: passwordTextField.text!) { data in
+        
+        if let username = usernameTextField.text, !username.isEmpty,
+           let password = passwordTextField.text, !password.isEmpty {
+          WebServices.shared.login(token: token, userName: username, password: password) { data in
             if data.success {
-                DispatchQueue.main.async {
-                    self.performSegue(withIdentifier: "tabBarVC", sender: nil)
-                }
-
+              DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "tabBarVC", sender: nil)
+              }
             } else {
-                self.incorrectCredentialsMessage.isHidden = false
+              // Show the incorrect credentials message
+              self.incorrectCredentialsMessage.isHidden = false
             }
+          }
+        } else {
+          // Show an error message
+          self.incorrectCredentialsMessage.isHidden = false
+          self.incorrectCredentialsMessage.text = "Please enter a valid username and password."
+        }
+        
+        
+        
+        
         }
        
         
@@ -117,7 +130,7 @@ class LoginViewController: UIViewController {
         
     }
     
-}
+
 
 
 
